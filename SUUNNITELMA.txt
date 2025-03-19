@@ -1,0 +1,35 @@
+VAIHE 1:
+
+FRONTTI
+todolista
+  -ne on ihan yksinkertaisesti vain pinossa. (annetaanko kääntää kännyy??)
+  -joku hiton navbar mistä pääsee lukemaan musta
+  -saa lisätä uusia muistiinpanoja
+  -voi poistaa muistiinpanoja ja muokata
+
+abaut
+  -tietoa musta eli siis CV
+  -tietoa projusta (sitten kun se on hieno)
+
+
+BACKKI
+  -php rest api lisäyksiä ja poistoja varten
+
+
+YHTEENSOVITUS
+käynnistetään kaikki sit tuotannossa docker composella
+
+pitäiskö olla jokin järkevämpi devausympäristö?
+
+
+
+VAIHE ?
+gcp hostaus
+käännökset
+loginit/käyttäjät
+siistitään kaikki yhteensovitukset (ei env cors policyt etc)
+testaus
+ulkonäkö frontissa nätiksi
+useita notepadeja. eli siis voi luoda uuden listan muistiinpanoja ja ne on listattu jossain
+samanaikaisuuden käsittely. eiks tää tapahtuis php?
+järjestyksen säilyttäminen BE
