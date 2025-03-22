@@ -1,3 +1,5 @@
+# This is for development purposes. Remove at least the volumes for production.
+
 version: '3.8'
 services:
   db:
@@ -12,18 +14,23 @@ services:
     ports:
       - "5432:5432"
 
-  backend:
-    build: ./backend
-    volumes:
-      - ./backend/src:/var/www/html
+  api:
+    build: ./api
+    #    volumes:
+    #      - ./api:/var/www/html
+    #      - /var/www/html/vendor # Exclude vendor directory from mount
+    #      - /var/www/html/storage # Exclude storage from mount
     ports:
-      - "8080:80"
+      - "8000:80"
     depends_on:
       - db
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
 
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "3000:80"
     depends_on:
-      - backend
+      - api

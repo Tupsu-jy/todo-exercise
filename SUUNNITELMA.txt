@@ -1,3 +1,80 @@
+LUONNOSTELU
+-perus apit kuntoon
+
+-notepadit
+-websocket
+-cv apit
+
+
+
+WEBSOCKET
+api-reverb yhteys
+frontti-api/reverb websocket yhteys kummassakin päässä
+
+backki oikeiden broadcastien lähettäminen
+backki versiointi
+frontti reagoiminen broadcasteihin
+
+REST API
+todoorder
+  "move todo" PUT /api/todo-order/move
+    saa parametrinä joko 1: kaikki todot uudessa järkässä 2: vain siirrettävän ja sen uudet naapurit
+    palauttaa kaikki todot notepadissa
+
+todos/notepads
+  "get all todos" GET /api/notepads/{notepad_id}/todos
+    saa parametrinä notepad id:n
+    palauttaa kaikki siihen liitetyt todot järjestettynä todoorder mukaan
+  "add todo" POST /api/notepads/{notepad_id}/todos
+    saa parametrinä notepad id:n
+  "delete todo" DELETE /api/todos/{todo_id}
+    saa parametrinä todo id:n
+  "edit todo" PUT /api/todos/{todo_id}
+    saa parametrinä todo id:n
+    voidaan käyttää tekstin muokkaukseen ja is_done kääntöön?
+
+companies
+  "get cover letter" GET /api/companies/{company_slug}/cover-letter
+    saa parametrinä firman slugin
+    palauttaa cover_letter(letter_en ja letter_fi)
+
+  "get cv" GET /api/companies/{company_slug}/cv
+    saa parametrinä firman slugin
+      companies taulust select cv_id where company_slug=company_slug
+      from cv_component_mappings select component_id where cv_id=cv_id order_by display_order
+      from cv_components select category, text_fi, text_en where id=component_id
+    palauttaa ne komponentit oikeassa järjestyksessä
+
+TESTIDATA
+1 sql skripti
+  ehkä helpompi??
+2 laravel tsydeemi
+  tyylikkäämpi
+  ehkä helpompi update: lol ei :D
+  oppis jotain laravelista
+  helpompi sit tuotannossa alustaa uudestaan
+
+VAIHE 2
+
+FRONTTI
+  -tänne se toinen websocket pääty
+  -abaut sivu käyttämään tietokannassa olevaa. pitää vittu lisätä se kaikki sit kantaan.
+  -pitää laittaa käyttämään company slugia (demo alkuun)
+  -useiden notepadien käyttö. eli siis pitää pystyä valitsemaan notepaista
+    -uusi näkymä missä on kaikki notepadit mitä firmalla on? siitä voi sit painamalla siirtyä
+
+BACKKI
+  -järjestyksen säilyttäminen BE
+  -cv tekstit tietokannassa 
+  -tietokanta uusiksi suunitelman mukaan
+  -concurrency hoitaminen versioinnilla ja php jokin websocket
+    -voi vittu miks mä kuvittelin tän olevan helppoa
+
+YHTEENSOVUTS
+  -ääääääääääääääää 
+
+YHTEENSOVITUS
+
 VAIHE 1:
 
 FRONTTI
@@ -25,11 +102,10 @@ pitäiskö olla jokin järkevämpi devausympäristö?
 
 VAIHE ?
 gcp hostaus
+  -api, websocket ja frontti kaikki käyttää cloud runia
+  -psql käyttää cloud sql
 käännökset
-loginit/käyttäjät
 siistitään kaikki yhteensovitukset (ei env cors policyt etc)
 testaus
 ulkonäkö frontissa nätiksi
 useita notepadeja. eli siis voi luoda uuden listan muistiinpanoja ja ne on listattu jossain
-samanaikaisuuden käsittely. eiks tää tapahtuis php?
-järjestyksen säilyttäminen BE

@@ -1,5 +1,5 @@
 # Use an official Flutter runtime as a parent image
-FROM cirrusci/flutter:latest
+FROM ghcr.io/cirruslabs/flutter:3.29.2
 
 # Set the working directory
 WORKDIR /app

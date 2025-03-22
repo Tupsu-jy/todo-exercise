@@ -58,7 +58,7 @@ class AboutScreen extends StatelessWidget {
             _SkillCategory(
               title: 'PROGRAMMING LANGUAGES',
               strongest: 'Java, JavaScript, TypeScript, Python',
-              others: 'Kotlin, C',
+              others: 'Kotlin, PHP',
             ),
             _SkillCategory(
               title: 'FRAMEWORKS',
@@ -205,7 +205,7 @@ class _SkillCategory extends StatelessWidget {
                               ),
                             ),
                           if (strongest != null)
-                            TextSpan(text: strongest! + ' '),
+                            TextSpan(text: '${strongest!} '),
                           if (others != null)
                             TextSpan(
                               text: 'Others: ',
@@ -213,7 +213,7 @@ class _SkillCategory extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          if (others != null) TextSpan(text: others! + ' '),
+                          if (others != null) TextSpan(text: '${others!} '),
                           if (lessExperience != null)
                             TextSpan(
                               text: 'Less experience: ',

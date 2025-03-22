@@ -21,14 +21,16 @@ class _TodoListState extends State<TodoList> {
   }
 
   Future<void> _getTodos() async {
-    final fetchedTodos = await _todoService.getTodos();
+    final fetchedTodos = await _todoService.getTodos(
+      '0195bd90-4b67-73ce-9409-08595c3a4910',
+    );
     setState(() {
       todos = fetchedTodos;
     });
   }
 
   Future<void> _addTodo(String message) async {
-    await _todoService.addTodo(message);
+    await _todoService.addTodo(message, '0195bd90-4b67-73ce-9409-08595c3a4910');
     _getTodos();
   }
 
@@ -114,14 +116,33 @@ class _TodoListState extends State<TodoList> {
         children: [
           ReorderableListView.builder(
             itemCount: todos.length,
-            onReorder: (oldIndex, newIndex) {
+            onReorder: (oldIndex, newIndex) async {
               setState(() {
                 if (newIndex > oldIndex) newIndex--;
                 final item = todos.removeAt(oldIndex);
                 todos.insert(newIndex, item);
-                // You might want to add a service method to update the order in backend
-                // _todoService.updateOrder(todos);
               });
+
+              try {
+                // Get the IDs of the todos before and after the moved item
+                String? beforeId = newIndex > 0 ? todos[newIndex - 1].id : null;
+                String? afterId =
+                    newIndex < todos.length - 1 ? todos[newIndex + 1].id : null;
+
+                await _todoService.moveTodo(
+                  todos[newIndex].id, // moved todo
+                  beforeId, // todo before new position
+                  afterId, // todo after new position
+                );
+              } catch (e) {
+                // If the move fails, refresh the list to get the correct order
+                _getTodos();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to move todo')),
+                  );
+                }
+              }
             },
             itemBuilder: (context, index) {
               final todo = todos[index];
@@ -178,8 +199,8 @@ class _TodoListState extends State<TodoList> {
             bottom: 16,
             child: FloatingActionButton(
               onPressed: () => _showAddDialog(context),
-              child: Icon(Icons.add),
               backgroundColor: Colors.blue,
+              child: Icon(Icons.add),
             ),
           ),
         ],
