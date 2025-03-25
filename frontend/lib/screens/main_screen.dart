@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'todo_list_screen.dart';
 import 'about_screen.dart';
+import 'notepads_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -12,11 +12,11 @@ class MainScreen extends StatelessWidget {
       child: Scaffold(
         appBar: TabBar(
           tabs: [
-            Tab(icon: Icon(Icons.list), text: 'Todos'),
+            Tab(icon: Icon(Icons.folder), text: 'Notepads'),
             Tab(icon: Icon(Icons.info), text: 'About'),
           ],
         ),
-        body: TabBarView(children: [TodoListScreen(), AboutScreen()]),
+        body: TabBarView(children: [NotepadsScreen(), AboutScreen()]),
       ),
     );
   }

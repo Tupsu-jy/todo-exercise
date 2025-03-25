@@ -1,37 +1,78 @@
+GCP
+siirrot onnaa
+
+
+
 LUONNOSTELU
 -perus apit kuntoon
 
 -notepadit
+  -samanlainen lista kuin todos. sama "+" nappi lisäämiseen
+  -navbar korvataan uudella missä on takaisin nuoli ja notepadin nimi. silloin kun ollaan kattomassa notepadin todolista
+  -voisko se näkymä olla sama kuin todoilla? pitäisi sitten lisätä niillekkin jokin order_index taulu. vois laittaa company tauluun
+  versioinnin ja.... pidetään tää nyt ensin vähän yksinkertaisempana 
+-notepadit apit
+  -lisätty alustavasti. kontrollerit ainakin pitää kattoa
+
+-kunnon demodata tehtaisiin
+-koitetaan seedata kantaan ne
+-aletaan tekemään abaut sivua
+  -api joka saa company_id+cover_letter_id parametrinä. luo json objectin cv_componeteista ja cover_letteristä
+  -kun käyttäjä avaa sivun niin haetaan siihen provideriin cv ja coverletter
+  -abaut sivu saa sen objektin ja käy se läpi luoden kahdenlaisia komponentteja (+ alun erikoistapaukset)
+  TODO: cover letter käsittely vielä
+
+
 -websocket
 -cv apit
 
 
 
 WEBSOCKET
-api-reverb yhteys
-frontti-api/reverb websocket yhteys kummassakin päässä
+ymmärtäminen
+reverb pyörii samassa kontissa kuin api
+frontti ottaa yhteyttä reverbiin aina kun avataan
 
-backki oikeiden broadcastien lähettäminen
-backki versiointi
-frontti reagoiminen broadcasteihin
+api tietää missä reverb on niin että se voi käyttää sitä broadcastingiin
+
+REVERB_SERVER_HOST=0.0.0.0
+tarkoittaa mistä saa ottaa yhteyttä "network interface"
+
+REVERB_HOST=ws.laravel.com
+kertoo mistä laravel löytää sen. (ja frontti?)
+
+okei... yhteys saatu aikaan
+
+sitten ne broadcastit etc.
+  -aina kun muutetaan mitään dataa backendissä niin
 
 REST API
-todoorder
-  "move todo" PUT /api/todo-order/move
-    saa parametrinä joko 1: kaikki todot uudessa järkässä 2: vain siirrettävän ja sen uudet naapurit
-    palauttaa kaikki todot notepadissa
+todo-order
+  "reorder todos" PATCH /api/todo-order/reorder
+    reorders todos in a notepad
 
-todos/notepads
+notepads
   "get all todos" GET /api/notepads/{notepad_id}/todos
     saa parametrinä notepad id:n
     palauttaa kaikki siihen liitetyt todot järjestettynä todoorder mukaan
   "add todo" POST /api/notepads/{notepad_id}/todos
     saa parametrinä notepad id:n
+    luo uuden todon ja liittää sen notepadiin
+  "get notepad" GET /api/notepads/{company_slug}
+    palauttaa kaikki notepadit mitkä kuuluu firmalle
+  "add notepad" POST /api/notepads/{company_slug}
+    luo uuden notepadin ja liittää sen firmalle
+  
+
+todos
   "delete todo" DELETE /api/todos/{todo_id}
     saa parametrinä todo id:n
-  "edit todo" PUT /api/todos/{todo_id}
+  "update todo" PUT /api/todos/{todo_id}
     saa parametrinä todo id:n
-    voidaan käyttää tekstin muokkaukseen ja is_done kääntöön?
+    muokkaa tekstiä
+  "toggle status" PATCH /api/todos/{todo_id}/status
+    saa parametrinä todo id:n
+    käytetään is_done kääntöön
 
 companies
   "get cover letter" GET /api/companies/{company_slug}/cover-letter

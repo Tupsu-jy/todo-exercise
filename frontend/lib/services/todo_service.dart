@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/todo.dart';
+import '../config/env_config.dart';
 
 class TodoService {
-  final String baseUrl = 'http://localhost:8000/api';
+  final String baseUrl = EnvConfig.apiUrl;
   // Temp
-  final notepad = '0195bd90-4b67-73ce-9409-08595c3a4910';
+  final String notepadId = '0195bd90-4b67-73ce-9409-08595c3a4910';
 
   Future<List<Todo>> getTodos(String notepadId) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/notepads/$notepad/todos'),
+      Uri.parse('$baseUrl/notepads/$notepadId/todos'),
     );
     final List jsonResponse = json.decode(response.body);
     return jsonResponse.map((todo) => Todo.fromJson(todo)).toList();
@@ -17,7 +18,7 @@ class TodoService {
 
   Future<void> addTodo(String message, String notepadId) async {
     final response = await http.patch(
-      Uri.parse('$baseUrl/notepads/$notepad/todos'),
+      Uri.parse('$baseUrl/notepads/$notepadId/todos'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(Todo.createRequestJson(description: message)),
     );
@@ -66,15 +67,16 @@ class TodoService {
     String todoId,
     String? beforeId,
     String? afterId,
+    String notepadId,
   ) async {
-    final response = await http.put(
-      Uri.parse('$baseUrl/notepads/$notepad/todo-order'),
+    final response = await http.patch(
+      Uri.parse('$baseUrl/todo-order/reorder'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'todo_id': todoId,
         'before_id': beforeId,
         'after_id': afterId,
-        'notepad_id': notepad, // Using the existing notepad ID
+        'notepad_id': notepadId,
       }),
     );
 

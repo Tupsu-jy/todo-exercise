@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
 import 'screens/main_screen.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:provider/provider.dart';
+import 'providers/company_provider.dart';
+import 'config/env_config.dart';
 
 void main() {
-  runApp(MyApp());
+  String companySlug;
+  try {
+    final Uri uri = Uri.base;
+    companySlug =
+        uri.pathSegments.isNotEmpty
+            ? uri.pathSegments.last
+            : throw Exception('No company slug found in URL');
+  } catch (e) {
+    print('Error parsing URL: $e');
+    companySlug = 'default';
+  }
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CompanyProvider()..initializeWithSlug(companySlug),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -14,13 +34,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final WebSocketChannel channel = WebSocketChannel.connect(
-    Uri.parse('ws://your-laravel-url:6001/app/YOUR_KEY'),
-  );
+  final String baseUrl = EnvConfig.apiUrl;
+  late final WebSocketChannel channel;
 
   @override
   void initState() {
     super.initState();
+    //channel = WebSocketChannel.connect(Uri.parse('$baseUrl/ws'));
+    channel = WebSocketChannel.connect(
+      Uri.parse('ws://localhost:8080/app/ob0ildef0rapadlha0hl'),
+    );
+
+    // WebSocket stuff
     channel.stream.listen((message) {
       print("Received: $message"); // Handle incoming todo updates
     });
@@ -30,7 +55,19 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  void dispose() {
+    channel.sink.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: MainScreen());
+    return MaterialApp(
+      theme: ThemeData(
+        textTheme: const TextTheme(titleLarge: TextStyle(fontSize: 28.0)),
+      ),
+      debugShowCheckedModeBanner: false,
+      home: MainScreen(),
+    );
   }
 }

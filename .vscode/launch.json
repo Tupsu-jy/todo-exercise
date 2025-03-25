@@ -31,7 +31,11 @@
       "name": "Debug frontend",
       "cwd": "frontend",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "args": [
+        "-d",
+        "chrome"
+      ]
     },
     {
       "name": "Profile frontend",

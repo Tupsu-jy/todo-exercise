@@ -3,7 +3,9 @@ import '../services/todo_service.dart';
 import '../models/todo.dart';
 
 class TodoList extends StatefulWidget {
-  const TodoList({super.key});
+  final String notepadId;
+
+  const TodoList({super.key, required this.notepadId});
 
   @override
   _TodoListState createState() => _TodoListState();
@@ -21,16 +23,14 @@ class _TodoListState extends State<TodoList> {
   }
 
   Future<void> _getTodos() async {
-    final fetchedTodos = await _todoService.getTodos(
-      '0195bd90-4b67-73ce-9409-08595c3a4910',
-    );
+    final fetchedTodos = await _todoService.getTodos(widget.notepadId);
     setState(() {
       todos = fetchedTodos;
     });
   }
 
   Future<void> _addTodo(String message) async {
-    await _todoService.addTodo(message, '0195bd90-4b67-73ce-9409-08595c3a4910');
+    await _todoService.addTodo(message, widget.notepadId);
     _getTodos();
   }
 
@@ -133,6 +133,7 @@ class _TodoListState extends State<TodoList> {
                   todos[newIndex].id, // moved todo
                   beforeId, // todo before new position
                   afterId, // todo after new position
+                  widget.notepadId, // notepad id
                 );
               } catch (e) {
                 // If the move fails, refresh the list to get the correct order

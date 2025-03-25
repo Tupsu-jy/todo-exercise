@@ -42,7 +42,7 @@ RUN chown -R www-data:www-data /var/www/html \
   && chmod -R 755 /var/www/html/storage
 
 # Expose port 80
-EXPOSE 8000
+EXPOSE 80
 
-# Start Apache server
+# Start Apache
 CMD ["apache2-foreground"]
