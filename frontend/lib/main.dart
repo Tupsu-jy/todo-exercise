@@ -3,7 +3,9 @@ import 'screens/main_screen.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:provider/provider.dart';
 import 'providers/company_provider.dart';
+import 'providers/todo_provider.dart';
 import 'config/env_config.dart';
+import 'dart:convert';
 
 void main() {
   String companySlug;
@@ -19,8 +21,14 @@ void main() {
   }
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => CompanyProvider()..initializeWithSlug(companySlug),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create:
+              (context) => CompanyProvider()..initializeWithSlug(companySlug),
+        ),
+        ChangeNotifierProvider(create: (context) => TodoProvider()),
+      ],
       child: MyApp(),
     ),
   );
@@ -37,21 +45,32 @@ class _MyAppState extends State<MyApp> {
   final String baseUrl = EnvConfig.apiUrl;
   late final WebSocketChannel channel;
 
+  String getWebSocketUrl() {
+    final apiUrl = Uri.parse(EnvConfig.apiUrl);
+    final wsProtocol = apiUrl.scheme == 'https' ? 'wss' : 'ws';
+    return '$wsProtocol://${apiUrl.host}/app/ob0ildef0rapadlha0hl';
+  }
+
   @override
   void initState() {
     super.initState();
-    //channel = WebSocketChannel.connect(Uri.parse('$baseUrl/ws'));
-    channel = WebSocketChannel.connect(
-      Uri.parse('ws://localhost:8080/app/ob0ildef0rapadlha0hl'),
-    );
+    channel = WebSocketChannel.connect(Uri.parse(getWebSocketUrl()));
 
-    // WebSocket stuff
     channel.stream.listen((message) {
-      print("Received: $message"); // Handle incoming todo updates
+      print('message: $message');
+      final data = jsonDecode(message);
+      final eventData = jsonDecode(data['data']);
+      if (data['event'] == 'todo.reordered') {
+        Provider.of<TodoProvider>(
+          context,
+          listen: false,
+        ).handleWebSocketUpdate({'event': data['event'], ...eventData});
+      }
     });
 
-    // Subscribe to the todos channel
-    channel.sink.add('{"event": "subscribe", "channel": "todos"}');
+    channel.sink.add(
+      '{"event": "pusher:subscribe", "data": {"channel": "todos"}}',
+    );
   }
 
   @override

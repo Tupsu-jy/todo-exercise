@@ -1,7 +1,16 @@
 GCP
-siirrot onnaa
+toimimaan websocket kanssa
+frontti kontti tarvii lisää env muuttujia ws yhteyttä varten
+api kontti tarvii... miten mä nyt jaan sen portin
+
+tää pitää olla envinä
+REVERB_APP_KEY=ob0ildef0rapadlha0hl
+mikä tässä pitää nyt olla? joko localhost koska tämä tapahtuu kontin sisällä(jotenkin)
+tai sitten gcp urli jos se annetaan clientille.
+REVERB_HOST
 
 
+pitää tehä joku skripti deployaukseen. tai eka kyl syön jtn
 
 LUONNOSTELU
 -perus apit kuntoon
@@ -43,8 +52,19 @@ kertoo mistä laravel löytää sen. (ja frontti?)
 
 okei... yhteys saatu aikaan
 
-sitten ne broadcastit etc.
-  -aina kun muutetaan mitään dataa backendissä niin
+reordering toimii, ilman virheenkäsittelyä tms, mutta toimii
+
+vaihtoehto1
+  -aina kun tehdään mitään muutoksia niin kaikki muut lataa kaiken uudestaan. 
+    -on hidas... vai onko? haetaan taustalla kaikki uusiksi. no problem
+    -on varmempi
+    -helpompi kun soveltuu siihen mitä ollaan tehty tähän saakka
+
+vaihtoehto2
+  -aina kun tehdään mitään muutoksia niin laitetaan tieto siitä millainen muutos tehtiin
+    -haetaan vain se muuttunut entry
+    -helpompi olla buginen
+    -vaikeempi. pitää tehdä BE uusiksi ja paljon kaikkea käsittelyä fronttiin.
 
 REST API
 todo-order

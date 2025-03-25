@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../services/todo_service.dart';
+import 'package:provider/provider.dart';
+import '../providers/todo_provider.dart';
 import '../models/todo.dart';
 
 class TodoList extends StatefulWidget {
@@ -12,41 +13,16 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
-  List<Todo> todos = [];
-  final TodoService _todoService = TodoService();
   final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _getTodos();
-  }
-
-  Future<void> _getTodos() async {
-    final fetchedTodos = await _todoService.getTodos(widget.notepadId);
-    setState(() {
-      todos = fetchedTodos;
-    });
-  }
-
-  Future<void> _addTodo(String message) async {
-    await _todoService.addTodo(message, widget.notepadId);
-    _getTodos();
-  }
-
-  Future<void> _editTodo(String newMessage, String id) async {
-    await _todoService.editTodo(id, newMessage);
-    _getTodos();
-  }
-
-  Future<void> _deleteTodo(String id) async {
-    await _todoService.deleteTodo(id);
-    _getTodos();
-  }
-
-  Future<void> _toggleTodo(String id, bool isDone) async {
-    await _todoService.toggleTodo(id, isDone);
-    _getTodos();
+    // Load todos when widget initializes
+    Provider.of<TodoProvider>(
+      context,
+      listen: false,
+    ).loadTodos(widget.notepadId);
   }
 
   void _showAddDialog(BuildContext context) {
@@ -63,7 +39,10 @@ class _TodoListState extends State<TodoList> {
             TextButton(
               child: Text('Add'),
               onPressed: () {
-                _addTodo(_controller.text);
+                Provider.of<TodoProvider>(
+                  context,
+                  listen: false,
+                ).addTodo(_controller.text, widget.notepadId);
                 Navigator.of(context).pop();
                 _controller.clear();
               },
@@ -95,7 +74,10 @@ class _TodoListState extends State<TodoList> {
             TextButton(
               child: const Text('Save'),
               onPressed: () {
-                _editTodo(editController.text, todo.id);
+                Provider.of<TodoProvider>(
+                  context,
+                  listen: false,
+                ).editTodo(todo.id, editController.text, widget.notepadId);
                 Navigator.of(context).pop();
               },
             ),
@@ -111,101 +93,120 @@ class _TodoListState extends State<TodoList> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
-        children: [
-          ReorderableListView.builder(
-            itemCount: todos.length,
-            onReorder: (oldIndex, newIndex) async {
-              setState(() {
-                if (newIndex > oldIndex) newIndex--;
-                final item = todos.removeAt(oldIndex);
-                todos.insert(newIndex, item);
-              });
+    return Consumer<TodoProvider>(
+      builder: (context, todoProvider, child) {
+        final todos = todoProvider.getTodosForNotepad(widget.notepadId);
 
-              try {
-                // Get the IDs of the todos before and after the moved item
-                String? beforeId = newIndex > 0 ? todos[newIndex - 1].id : null;
-                String? afterId =
-                    newIndex < todos.length - 1 ? todos[newIndex + 1].id : null;
+        return Material(
+          child: Stack(
+            children: [
+              ReorderableListView.builder(
+                itemCount: todos.length,
+                onReorder: (oldIndex, newIndex) async {
+                  if (newIndex > oldIndex) newIndex--;
 
-                await _todoService.moveTodo(
-                  todos[newIndex].id, // moved todo
-                  beforeId, // todo before new position
-                  afterId, // todo after new position
-                  widget.notepadId, // notepad id
-                );
-              } catch (e) {
-                // If the move fails, refresh the list to get the correct order
-                _getTodos();
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Failed to move todo')),
-                  );
-                }
-              }
-            },
-            itemBuilder: (context, index) {
-              final todo = todos[index];
-              return Dismissible(
-                key: Key(todo.id),
-                background: Container(
-                  color: Colors.red,
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: 16),
-                  child: const Icon(Icons.delete, color: Colors.white),
-                ),
-                direction: DismissDirection.endToStart,
-                onDismissed: (direction) => _deleteTodo(todo.id),
-                child: ListTile(
-                  key: Key(todo.id),
-                  leading: Checkbox(
-                    value: todo.isDone,
-                    onChanged: (bool? value) {
-                      if (value != null) {
-                        _toggleTodo(todo.id, value);
-                      }
-                    },
-                  ),
-                  title: Text(
-                    todo.description,
-                    style: TextStyle(
-                      decoration:
-                          todo.isDone ? TextDecoration.lineThrough : null,
+                  // Get IDs for API call
+                  final String? beforeId =
+                      newIndex > 0 ? todos[newIndex - 1].id : null;
+                  final String? afterId =
+                      newIndex < todos.length - 1 ? todos[newIndex].id : null;
+
+                  // Optimistically update the list
+                  final movedTodo = todos.removeAt(oldIndex);
+                  todos.insert(newIndex, movedTodo);
+                  todoProvider.updateTodosForNotepad(widget.notepadId, todos);
+
+                  try {
+                    // Make the API call
+                    await todoProvider.moveTodo(
+                      movedTodo.id,
+                      beforeId,
+                      afterId,
+                      widget.notepadId,
+                    );
+                  } catch (e) {
+                    // If the API call fails, reload the list to get the correct order
+                    await todoProvider.loadTodos(widget.notepadId);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Failed to move todo')),
+                      );
+                    }
+                  }
+                },
+                itemBuilder: (context, index) {
+                  final todo = todos[index];
+                  return Dismissible(
+                    key: Key(todo.id),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 16),
+                      child: const Icon(Icons.delete, color: Colors.white),
                     ),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () => _showEditDialog(context, todo),
+                    direction: DismissDirection.endToStart,
+                    onDismissed:
+                        (direction) =>
+                            todoProvider.deleteTodo(todo.id, widget.notepadId),
+                    child: ListTile(
+                      key: Key(todo.id),
+                      leading: Checkbox(
+                        value: todo.isDone,
+                        onChanged: (bool? value) {
+                          if (value != null) {
+                            todoProvider.toggleTodo(
+                              todo.id,
+                              value,
+                              widget.notepadId,
+                            );
+                          }
+                        },
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () => _deleteTodo(todo.id),
+                      title: Text(
+                        todo.description,
+                        style: TextStyle(
+                          decoration:
+                              todo.isDone ? TextDecoration.lineThrough : null,
+                        ),
                       ),
-                      ReorderableDragStartListener(
-                        index: index,
-                        child: const Icon(Icons.drag_handle),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () => _showEditDialog(context, todo),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed:
+                                () => todoProvider.deleteTodo(
+                                  todo.id,
+                                  widget.notepadId,
+                                ),
+                          ),
+                          ReorderableDragStartListener(
+                            index: index,
+                            child: const Icon(Icons.drag_handle),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  );
+                },
+              ),
+              Positioned(
+                right: 16,
+                bottom: 16,
+                child: FloatingActionButton(
+                  onPressed: () => _showAddDialog(context),
+                  backgroundColor: Colors.blue,
+                  child: Icon(Icons.add),
                 ),
-              );
-            },
+              ),
+            ],
           ),
-          Positioned(
-            right: 16,
-            bottom: 16,
-            child: FloatingActionButton(
-              onPressed: () => _showAddDialog(context),
-              backgroundColor: Colors.blue,
-              child: Icon(Icons.add),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Events\TodoUpdated;
+use App\Events\TodoReordered;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use App\Models\TodoOrder;
@@ -47,6 +47,7 @@ class TodoController extends Controller
         DB::beginTransaction();
         try {
             Log::info('Moving todo', ['request' => $request->all()]);
+            // TODO: Add handling for exceptions. ie when todo does not have correct order index
             // 1. Validation
             $request->validate([
                 'todo_id' => 'required|uuid',      // The todo being moved
@@ -77,6 +78,10 @@ class TodoController extends Controller
                 ->update(['order_index' => $newOrder]);
 
             DB::commit();
+
+            // 5. Broadcast the new order index to all clients
+            broadcast(new TodoReordered($request->todo_id, $newOrder))->toOthers();
+
             return response()->json(['success' => true]);
 
         } catch (\Exception $e) {
@@ -102,7 +107,7 @@ class TodoController extends Controller
     /**
      * Get All Todos
      * 
-     * Retrieves all todos for a specific notepad, ordered by their position.
+     * Retrieves all todos for a specific notepad, including their order index.
      * 
      * @urlParam notepad_id string required UUID of the notepad. Example: 550e8400-e29b-41d4-a716-446655440000
      * 
@@ -117,12 +122,10 @@ class TodoController extends Controller
      */
     public function getAllTodos($notepadId)
     {
-        // Retrieve all todos for the given notepad, ordered by todo_order
         $todos = DB::table('todos')
             ->join('todo_orders', 'todos.id', '=', 'todo_orders.todo_id')
             ->where('todos.notepad_id', $notepadId)
-            ->orderBy('todo_orders.order_index')
-            ->select('todos.*') // Select all columns from todos
+            ->select('todos.*', 'todo_orders.order_index') // Include order_index
             ->get();
 
         return response()->json($todos);

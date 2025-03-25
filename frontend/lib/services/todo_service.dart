@@ -13,6 +13,7 @@ class TodoService {
       Uri.parse('$baseUrl/notepads/$notepadId/todos'),
     );
     final List jsonResponse = json.decode(response.body);
+    jsonResponse.sort((a, b) => a['order_index'].compareTo(b['order_index']));
     return jsonResponse.map((todo) => Todo.fromJson(todo)).toList();
   }
 
