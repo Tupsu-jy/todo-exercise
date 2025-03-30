@@ -11,6 +11,7 @@ class TodoProvider extends ChangeNotifier {
     return todosByNotepad[notepadId] ?? [];
   }
 
+  // TODO: why are all these even here?
   Future<void> loadTodos(String notepadId) async {
     todosByNotepad[notepadId] = await _todoService.getTodos(notepadId);
     notifyListeners();

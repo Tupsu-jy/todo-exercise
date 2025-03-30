@@ -62,8 +62,7 @@ class TodoController extends Controller
             $notepad = Notepad::where('id', $request->notepad_id)
                 ->where('order_version', $request->order_version)
                 ->lockForUpdate()
-                ->skipLocked()
-                ->firstOrFail();
+                ->first();
 
             if (!$notepad) {
                 throw new \Exception('Order version mismatch');

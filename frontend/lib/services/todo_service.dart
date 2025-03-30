@@ -72,20 +72,28 @@ class TodoService {
     String notepadId,
     int orderVersion,
   ) async {
+    final Map<String, dynamic> data = {
+      'todo_id': todoId,
+      'before_id': beforeId,
+      'after_id': afterId,
+      'notepad_id': notepadId,
+      'order_version': orderVersion,
+    };
+
     final response = await http.patch(
       Uri.parse('$baseUrl/todo-order/reorder'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'todo_id': todoId,
-        'before_id': beforeId,
-        'after_id': afterId,
-        'notepad_id': notepadId,
-        'order_version': orderVersion,
-      }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: jsonEncode(data),
     );
 
+    print('Request sent: ${jsonEncode(data)}');
+    print('Response: ${response.statusCode} - ${response.body}');
+
     if (response.statusCode != 200) {
-      throw Exception('Failed to move todo');
+      throw Exception('Failed to move todo: ${response.body}');
     }
   }
 }

@@ -5,7 +5,8 @@ const String _apiUrl = String.fromEnvironment(
 
 const String _wsUrl = String.fromEnvironment(
   'WS_URL',
-  defaultValue: 'ws://localhost:8000/app/ob0ildef0rapadlha0hl',
+  // This is for when BE is not in docker
+  defaultValue: 'ws://localhost:8080/app/ob0ildef0rapadlha0hl',
 );
 
 class EnvConfig {
