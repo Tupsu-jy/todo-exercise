@@ -8,6 +8,9 @@ use App\Models\TodoOrder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Notepad;
+use App\Events\TodoCreated;
+use App\Events\TodoDeleted;
+use App\Events\TodoUpdated;
 
 /**
  * @group Todo Management
@@ -68,26 +71,21 @@ class TodoController extends Controller
                 throw new \Exception('Order version mismatch');
             }
 
-            // Lock all todo orders for the notepad being reordered. Will fail if another process is modifying the same notepad.
+            // Lock all todo orders for the notepad being reordered
             $todo_orders = TodoOrder::where('notepad_id', $request->notepad_id)
                 ->lockForUpdate();
 
-            Log::info('After validation');
+            // Get both orders in a single query
+            $orderIndexes = $todo_orders->whereIn('todo_id', array_filter([$request->before_id, $request->after_id]))
+                ->pluck('order_index', 'todo_id');
 
-            // 2. Get order indexes for positioning
-            $beforeOrder = null;
-            $afterOrder = null;
-            
-            if ($request->before_id) {
-                $beforeOrder = $todo_orders->where('todo_id', $request->before_id)
-                    ->value('order_index');
-                Log::info('Before order', ['order' => $beforeOrder]);
-            }
-            
-            if ($request->after_id) {
-                $afterOrder = $todo_orders->where('todo_id', $request->after_id)
-                    ->value('order_index');
-            }
+            $beforeOrder = $request->before_id ? ($orderIndexes[$request->before_id] ?? null) : null;
+            $afterOrder = $request->after_id ? ($orderIndexes[$request->after_id] ?? null) : null;
+
+            Log::info('Order indexes', [
+                'before' => $beforeOrder,
+                'after' => $afterOrder
+            ]);
 
             // 3. Calculate new position
             $newOrder = $this->calculateNewOrderIndex($beforeOrder, $afterOrder);
@@ -231,6 +229,9 @@ class TodoController extends Controller
             ]);
 
             DB::commit();
+            
+            broadcast(new TodoCreated($todo, $newOrder))->toOthers();
+
             return response()->json([
                 'todo' => $todo,
                 'order_index' => $newOrder
@@ -278,6 +279,9 @@ class TodoController extends Controller
             $todo->delete();  // This will cascade delete the todo_order
             
             DB::commit();
+            
+            broadcast(new TodoDeleted($id))->toOthers();
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -357,6 +361,9 @@ class TodoController extends Controller
             ]);
 
             DB::commit();
+            
+            broadcast(new TodoUpdated($todo))->toOthers();
+
             return response()->json($todo);
 
         } catch (\Exception $e) {

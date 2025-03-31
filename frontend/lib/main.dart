@@ -53,12 +53,42 @@ class _MyAppState extends State<MyApp> {
     channel.stream.listen((message) {
       print('message: $message');
       final data = jsonDecode(message);
+      if (data['data'] == null ||
+          data['data'].isEmpty ||
+          data['event'] == null ||
+          data['event'].isEmpty) {
+        return;
+      }
       final eventData = jsonDecode(data['data']);
-      if (data['event'] == 'todo.reordered') {
-        Provider.of<TodoProvider>(
-          context,
-          listen: false,
-        ).handleWebSocketUpdate({'event': data['event'], ...eventData});
+
+      switch (data['event']) {
+        case 'todo.reordered':
+          Provider.of<TodoProvider>(
+            context,
+            listen: false,
+          ).handleWebSocketUpdate({'event': data['event'], ...eventData});
+          break;
+
+        case 'todo.created':
+          Provider.of<TodoProvider>(
+            context,
+            listen: false,
+          ).handleTodoCreated(eventData['todo'], eventData['orderIndex']);
+          break;
+
+        case 'todo.deleted':
+          Provider.of<TodoProvider>(
+            context,
+            listen: false,
+          ).handleTodoDeleted(eventData['todoId']);
+          break;
+
+        case 'todo.updated':
+          Provider.of<TodoProvider>(
+            context,
+            listen: false,
+          ).handleTodoUpdated(eventData['todo']);
+          break;
       }
     });
 

@@ -81,11 +81,12 @@ VAIHE 3
 
 FRONTTI
   -optimistinen päivitys kaikkeen
-  -koitetaan nopeuttaa sivun latausta avatessa (company_slug vs id)
-  -koodi on sotkuista
-  -siivotaan ulkonäköä
+  -koitetaan nopeuttaa sivun latausta avatessa (company_slug vs id). ei
+  -broadcast päivitykset kaikkeen
+  -koodi on sotkuista. jaettu komponentti
+  -siivotaan ulkonäköä. tehdään shared widget
   -se outo juttu oikealla kännyllä avatessa
-  -notepadien muokkaus? sehän ei toimi vielä
+  -notepadien crud. lisäys. poisto. muokkaus. ei uudelleenjärjestelyä vielä.
   -käännökset
 
 BACKKI

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../models/todo.dart';
 import '../services/todo_service.dart';
+import '../providers/company_provider.dart';
 
 // Create a new TodoProvider
 class TodoProvider extends ChangeNotifier {
   final TodoService _todoService = TodoService();
+  final CompanyProvider _companyProvider = CompanyProvider();
   Map<String, List<Todo>> todosByNotepad = {};
 
   List<Todo> getTodosForNotepad(String notepadId) {
@@ -96,10 +98,63 @@ class TodoProvider extends ChangeNotifier {
             );
             todos.sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
             updateTodosForNotepad(notepadId, todos);
+            _companyProvider.incrementOrderVersion(notepadId);
             return;
           }
         }
       });
+    }
+  }
+
+  // Add these three new handlers:
+  void handleTodoCreated(Map<String, dynamic> todoData, int orderIndex) {
+    final todo = Todo(
+      id: todoData['id'],
+      description: todoData['description'],
+      isDone: todoData['is_completed'] ?? false,
+      orderIndex: orderIndex,
+    );
+
+    final notepadId = todoData['notepad_id'];
+    if (todosByNotepad.containsKey(notepadId)) {
+      todosByNotepad[notepadId]!.add(todo);
+      todosByNotepad[notepadId]!.sort(
+        (a, b) => a.orderIndex.compareTo(b.orderIndex),
+      );
+      notifyListeners();
+    }
+  }
+
+  void handleTodoDeleted(String todoId) {
+    todosByNotepad.forEach((notepadId, todos) {
+      final beforeLength = todos.length;
+      todos.removeWhere((todo) => todo.id == todoId);
+
+      // Only notify if we actually removed something
+      if (todos.length != beforeLength) {
+        updateTodosForNotepad(notepadId, todos);
+      }
+    });
+  }
+
+  void handleTodoUpdated(Map<String, dynamic> todoData) {
+    final todoId = todoData['id'];
+    final notepadId = todoData['notepad_id'];
+
+    if (todosByNotepad.containsKey(notepadId)) {
+      final todos = todosByNotepad[notepadId]!;
+      for (var i = 0; i < todos.length; i++) {
+        if (todos[i].id == todoId) {
+          todos[i] = Todo(
+            id: todoId,
+            description: todoData['description'],
+            isDone: todoData['is_completed'] ?? todos[i].isDone,
+            orderIndex: todos[i].orderIndex, // Preserve existing order
+          );
+          updateTodosForNotepad(notepadId, todos);
+          break;
+        }
+      }
     }
   }
 

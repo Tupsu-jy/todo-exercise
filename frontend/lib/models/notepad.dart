@@ -2,7 +2,7 @@ class Notepad {
   final String id;
   final String name;
   final String companyId;
-  final int orderVersion;
+  int orderVersion;
 
   Notepad({
     required this.id,

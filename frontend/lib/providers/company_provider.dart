@@ -48,4 +48,10 @@ class CompanyProvider extends ChangeNotifier {
     final notepad = notepads.firstWhere((notepad) => notepad.id == notepadId);
     return notepad.orderVersion;
   }
+
+  void incrementOrderVersion(String notepadId) {
+    final notepad = notepads.firstWhere((notepad) => notepad.id == notepadId);
+    notepad.orderVersion++;
+    notifyListeners();
+  }
 }
