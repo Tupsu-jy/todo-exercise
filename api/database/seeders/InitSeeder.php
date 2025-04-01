@@ -30,22 +30,21 @@ class InitSeeder extends Seeder
 
         // 2. Create CV components
         $components = [
-            // Example structure:
             CvComponent::create([
                 'category' => 'job_title',
-                'text_en' => 'Information and Communication Technology Engineer',
-                'text_fi' => 'Tieto- ja viestintätekniikan insinööri'
+                'text_en' => 'Software Development Engineer',
+                'text_fi' => 'Ohjelmistokehittäjä'
             ]),
             CvComponent::create([
                 'category' => 'contact_info',
-                'text_en' => "Phone: +358 40 7389684
-Email: ylinenjaakko@gmail.com
-Address: 00410 Helsinki
-GitHub: Tupsu-jy",
-                'text_fi' => "Puhelin: +358 40 7389684
-Sähköposti: ylinenjaakko@gmail.com
-Asuinpaikka: 00410 Helsinki
-GitHub: Tupsu-jy"
+                'text_en' => "Phone: +358 40 1234567
+Email: john.doe@example.com
+Address: 00100 Helsinki
+GitHub: johndoe-dev",
+                'text_fi' => "Puhelin: +358 40 1234567
+Sähköposti: john.doe@example.com
+Asuinpaikka: 00100 Helsinki
+GitHub: johndoe-dev"
             ]),
             CvComponent::create([
                 'category' => 'section_header',
@@ -54,33 +53,33 @@ GitHub: Tupsu-jy"
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Programming", "content": "Java, Python, JavaScript, TypeScript, PHP"}',
-                'text_fi' => '{"title": "Ohjelmointi", "content": "Java, Python, JavaScript, TypeScript, PHP"}'
+                'text_en' => '{"title": "Programming", "content": "C++, Ruby, Go, Rust, Swift"}',
+                'text_fi' => '{"title": "Ohjelmointi", "content": "C++, Ruby, Go, Rust, Swift"}'
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Frameworks", "content": "React, Spring Boot, Django, Express, Next.js"}',
-                'text_fi' => '{"title": "Ohjelmistokehykset", "content": "React, Spring Boot, Django, Express, Next.js"}'
+                'text_en' => '{"title": "Frameworks", "content": "Vue.js, Laravel, Ruby on Rails, Flutter, Angular"}',
+                'text_fi' => '{"title": "Ohjelmistokehykset", "content": "Vue.js, Laravel, Ruby on Rails, Flutter, Angular"}'
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Databases", "content": "PostgreSQL, MongoDB"}',
-                'text_fi' => '{"title": "Tietokannat", "content": "PostgreSQL, MongoDB"}'
+                'text_en' => '{"title": "Databases", "content": "MySQL, Redis, Cassandra"}',
+                'text_fi' => '{"title": "Tietokannat", "content": "MySQL, Redis, Cassandra"}'
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Tools", "content": "Git, Docker, Linux, Jira, Confluence, Selenium"}',
-                'text_fi' => '{"title": "Työkalut", "content": "Git, Docker, Linux, Jira, Confluence, Selenium"}'
+                'text_en' => '{"title": "Tools", "content": "AWS, Azure, Kubernetes, Jenkins, Terraform"}',
+                'text_fi' => '{"title": "Työkalut", "content": "AWS, Azure, Kubernetes, Jenkins, Terraform"}'
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Methods", "content": "CI/CD, Agile, Scrum, TDD"}',
-                'text_fi' => '{"title": "Menetelmät", "content": "CI/CD, Agile, Scrum, TDD"}'
+                'text_en' => '{"title": "Methods", "content": "Kanban, DevOps, Microservices, DDD"}',
+                'text_fi' => '{"title": "Menetelmät", "content": "Kanban, DevOps, Microservices, DDD"}'
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Languages", "content": "Finnish(native), English(fluent)"}',
-                'text_fi' => '{"title": "Kielet", "content": "Suomi(äidinkieli), englanti(erinomainen)"}'
+                'text_en' => '{"title": "Languages", "content": "Finnish(native), English(fluent), Swedish(basic)"}',
+                'text_fi' => '{"title": "Kielet", "content": "Suomi(äidinkieli), englanti(erinomainen), ruotsi(perusteet)"}'
             ]),
             CvComponent::create([
                 'category' => 'section_header',
@@ -89,13 +88,13 @@ GitHub: Tupsu-jy"
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Metropolia University of Applied Sciences", "content": "Tieto- ja viestintätekniikka (08.2019 - 01.2025). 240 op pituinen koulutusohjelma (265/240 op suoritettu). Ohjelmistotuotanto pääaineena."}',
-                'text_fi' => '{"title": "Metropolian ammattikorkeakoulu", "content": "ICT (08.2019 - 01.2025). 240 credit (265/240 credit completed). Software production as major."}'
+                'text_en' => '{"title": "Technical University of Innovation", "content": "Computer Science (09.2018 - 06.2023). 300 ECTS program (290/300 completed). Specialization in Cloud Computing."}',
+                'text_fi' => '{"title": "Teknillinen innovaatioyliopisto", "content": "Tietotekniikka (09.2018 - 06.2023). 300 op ohjelma (290/300 suoritettu). Erikoistuminen pilvilaskentaan."}'
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Helsinki University", "content": "Computer Science (08.2013 - 10.2017) (94 credits completed)"}',
-                'text_fi' => '{"title": "Helsingin yliopisto", "content": "Tietojenkäsittelytiede (08.2013 - 10.2017) (94 op suoritettu)"}'
+                'text_en' => '{"title": "City College of Technology", "content": "Information Systems (08.2015 - 05.2018) (120 credits completed)"}',
+                'text_fi' => '{"title": "Kaupungin teknologiakorkeakoulu", "content": "Tietojärjestelmät (08.2015 - 05.2018) (120 op suoritettu)"}'
             ]),
             CvComponent::create([
                 'category' => 'section_header',
@@ -104,18 +103,18 @@ GitHub: Tupsu-jy"
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Documill", "content": "Software Designer from 10.5.2021 to 20.8.2021 and from 17.3.2020 to 31.12.2020. The work was related to a development project for an online document editing service for Java-based software. Technologies and tools used in the development work: Java, JavaScript, CSS, HTML, GIT, JUnit, and Selenium. I worked as part of a team, using English as the working language."}',
-                'text_fi' => '{"title": "Documill", "content": "Ohjelmistosuunnittelija 10.5.2021-20.8.2021 ja 17.3.2020-31.12.2020 välisinä aikoina. Työtehtävät liittyivät Java-pohjaisen ohjelmistojen dokumenttien online-editoinnin mahdollistavan verkkopalvelun kehityshankkeeseen. Kehitystyössä käytetyt tekniikat ja välineet: Java, JavaScript, CSS, HTML, GIT, JUnit ja Selenium. Työskentelin osana tiimiä, käyttäen englantia työkielenä."}'
+                'text_en' => '{"title": "TechCorp Solutions", "content": "Senior Developer from 03.2021 to 12.2023. Developed cloud-native applications using microservices architecture. Led a team of 5 developers in implementing new features and maintaining existing systems. Technologies: Kubernetes, Go, MongoDB, Redis."}',
+                'text_fi' => '{"title": "TechCorp Solutions", "content": "Senior kehittäjä 03.2021-12.2023. Kehitin pilvinatiiveja sovelluksia mikropalveluarkkitehtuurilla. Johdin 5 hengen kehitystiimiä uusien ominaisuuksien toteutuksessa ja ylläpidossa. Teknologiat: Kubernetes, Go, MongoDB, Redis."}'
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Iconicchain", "content": "Thesis work during 4.2024-10.2024. I implemented a data migration for the databases of a production product. I modified the software to be compatible with the new data format, both in the React frontend and the Python backend."}',
-                'text_fi' => '{"title": "Iconicchain", "content": "Opinnäytetyö 4.2024-10.2024 välisenä aikana. Toteutin datamigraation tuotannossa olevan tuotteen tietokantoihin. Muokkasin ohjelmiston yhteensopivaksi uuden tietoformaatin kanssa, sekä React-frontendissä että Python-backendissä."}'
+                'text_en' => '{"title": "DataFlow Systems", "content": "Full Stack Developer during 06.2020-02.2021. Implemented real-time data processing pipelines and visualization dashboards. Worked with React, Node.js, and PostgreSQL in an agile team environment."}',
+                'text_fi' => '{"title": "DataFlow Systems", "content": "Full Stack kehittäjä 06.2020-02.2021. Toteutin reaaliaikaisia datankäsittelyputkia ja visualisointinäkymiä. Työskentelin React, Node.js ja PostgreSQL teknologioilla ketterässä tiimissä."}'
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Outlier", "content": "Software Developer since 20.1.2025. The work tasks are related to producing high-quality training data for LLMs. I write high quality complete code that can be used to train models. I use multiple programming languages ​​in diverse situations."}',
-                'text_fi' => '{"title": "Outlier", "content": "Ohjelmistokehittäjä 20.1.2025 alkaen. Työtehtävät liittyvät korkealaatuisen koulutusdatan tuottamiseen tekoälymalleille. Kirjoitan täydellistä koodia, joka voidaan käyttää mallien koulutukseen. Käytän useita ohjelmointikieliä monipuolisissa tilanteissa."}'
+                'text_en' => '{"title": "CloudScale Inc", "content": "Cloud Engineer since 01.2024. Designing and implementing scalable cloud infrastructure solutions. Working with AWS, Terraform, and containerization technologies. Focus on automation and infrastructure as code."}',
+                'text_fi' => '{"title": "CloudScale Inc", "content": "Pilvi-insinööri 01.2024 alkaen. Suunnittelen ja toteutan skaalautuvia pilvi-infrastruktuuriratkaisuja. Työskentelen AWS:n, Terraformin ja kontitusteknologioiden parissa. Painopiste automaatiossa ja infrastruktuurissa koodina."}'
             ]),
             CvComponent::create([
                 'category' => 'section_header',
@@ -142,12 +141,12 @@ GitHub: Tupsu-jy"
 
         // 5. Create notepads for company
         $notepad1 = Notepad::create([
-            'name' => 'Mikäs tää nyt on?',
+            'name' => 'Project Alpha Tasks',
             'company_id' => $company1->id
         ]);
 
         $notepad2 = Notepad::create([
-            'name' => 'Whats this now?',
+            'name' => 'Project Beta Tasks',
             'company_id' => $company1->id
         ]);
 
@@ -155,7 +154,7 @@ GitHub: Tupsu-jy"
         $todos1 = [
             $todo1 = Todo::create([
                 'notepad_id' => $notepad1->id,
-                'description' => 'Tutki vähän miten tää toimii',
+                'description' => 'Review project requirements',
                 'is_completed' => false
             ]),
             $todo2 = Todo::create([
@@ -193,7 +192,7 @@ GitHub: Tupsu-jy"
         $todos2 = [
             $todo1 = Todo::create([
                 'notepad_id' => $notepad2->id,
-                'description' => 'Figure out how this works',
+                'description' => 'Analyze system architecture',
                 'is_completed' => false
             ]),
             $todo2 = Todo::create([
