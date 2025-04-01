@@ -1,0 +1,188 @@
+name: 'Notepad Management'
+description: |-
+
+  APIs for managing notepads within companies. Notepads are collections of todos
+  that belong to a specific company application process.
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: 'api/notepads/{company_id}'
+    metadata:
+      groupName: 'Notepad Management'
+      groupDescription: |-
+
+        APIs for managing notepads within companies. Notepads are collections of todos
+        that belong to a specific company application process.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List Company Notepads'
+      description: |-
+        Retrieves all notepads belonging to a specific company.
+        Notepads are returned in chronological order by creation date.
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      company_id:
+        name: company_id
+        description: 'The ID of the company.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      companyId:
+        name: companyId
+        description: 'The UUID of the company.'
+        required: true
+        example: 0195bd90-4b5f-72e6-baa2-18b5343dc7e7
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      company_id: architecto
+      companyId: 0195bd90-4b5f-72e6-baa2-18b5343dc7e7
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          [{
+            "id": "0195bd90-4b67-73ce-9409-08595c3a4910",
+            "name": "Interview Preparation",
+            "company_id": "0195bd90-4b5f-72e6-baa2-18b5343dc7e7",
+            "created_at": "2024-03-24T12:00:00Z",
+            "updated_at": "2024-03-24T12:00:00Z"
+          }]
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: |-
+          {
+            "message": "Company not found"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/notepads/{company_id}'
+    metadata:
+      groupName: 'Notepad Management'
+      groupDescription: |-
+
+        APIs for managing notepads within companies. Notepads are collections of todos
+        that belong to a specific company application process.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create Notepad'
+      description: |-
+        Creates a new notepad for a specific company.
+        Each notepad can contain multiple todos and helps organize different aspects
+        of the job application process.
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      company_id:
+        name: company_id
+        description: 'The ID of the company.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      companyId:
+        name: companyId
+        description: 'The UUID of the company.'
+        required: true
+        example: 0195bd90-4b5f-72e6-baa2-18b5343dc7e7
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      company_id: architecto
+      companyId: 0195bd90-4b5f-72e6-baa2-18b5343dc7e7
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'The name of the notepad.'
+        required: true
+        example: 'Technical Interview Notes'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      name: 'Technical Interview Notes'
+    fileParameters: []
+    responses:
+      -
+        status: 201
+        content: |-
+          {
+            "id": "0195bd90-4b67-73ce-9409-08595c3a4910",
+            "name": "Technical Interview Notes",
+            "company_id": "0195bd90-4b5f-72e6-baa2-18b5343dc7e7",
+            "created_at": "2024-03-24T12:00:00Z",
+            "updated_at": "2024-03-24T12:00:00Z"
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 422
+        content: |-
+          {
+            "message": "The name field is required.",
+            "errors": {
+              "name": ["The name field is required."]
+            }
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: |-
+          {
+            "error": "Failed to create notepad"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

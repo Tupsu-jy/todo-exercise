@@ -1,0 +1,60 @@
+# This is for development purposes. Remove at least the volumes for production.
+
+version: '3.8'
+services:
+  # This represents your Cloud SQL instance
+  db:
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: tododb
+      POSTGRES_USER: todo_user
+      POSTGRES_PASSWORD: todo_password
+    ports:
+      - "5432:5432"
+
+  # This is what will run in Cloud Run
+  backend:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      INSTANCE_UNIX_SOCKET: db
+      DB_PORT: 5432
+      DB_DATABASE: tododb
+      DB_USERNAME: todo_user
+      DB_PASSWORD: todo_password
+      CACHE_DRIVER: file
+      QUEUE_CONNECTION: sync
+      REVERB_SERVER_HOST: 0.0.0.0
+      REVERB_SERVER_PORT: 8000
+      REVERB_HOST: backend
+      REVERB_PORT: 8000
+      REVERB_APP_ACTIVITY_TIMEOUT: 120
+      REVERB_APP_PING_INTERVAL: 30
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+
+  # Local development frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # For local testing
+        API_URL: http://localhost:8000/api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+
+networks:
+  default:
+    name: app-network
