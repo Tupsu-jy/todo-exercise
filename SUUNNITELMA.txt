@@ -25,7 +25,7 @@ muut ws päivitykset
   -notepad lisäys
   -notepad poisto
   -notepad siirto? ei tehdä. ehkä myöhemmin
-tarviinko versioinnin notepadeillekkin? niillä on jo... ja sitä tarvitaan vain siirtoihin
+tarviinko versioinnin notepadeillekkin?
 
 
 REST API
@@ -77,16 +77,22 @@ TESTIDATA
   oppis jotain laravelista
   helpompi sit tuotannossa alustaa uudestaan
 
+NOTEPADIT
+tehdään niistä samanlainen kuin todot. tehdään niille oma order taulu ja lisätään companiesiin versionti
+
+
+
 VAIHE 3
 
 FRONTTI
   -optimistinen päivitys kaikkeen
-  -koitetaan nopeuttaa sivun latausta avatessa (company_slug vs id). ei
+  -notepadien crud. lisäys. poisto. muokkaus. ei uudelleenjärjestelyä vielä.
   -broadcast päivitykset kaikkeen
+
+  -koitetaan nopeuttaa sivun latausta avatessa (company_slug vs id). ei vielä
   -koodi on sotkuista. jaettu komponentti
   -siivotaan ulkonäköä. tehdään shared widget
   -se outo juttu oikealla kännyllä avatessa
-  -notepadien crud. lisäys. poisto. muokkaus. ei uudelleenjärjestelyä vielä.
   -käännökset
 
 BACKKI
