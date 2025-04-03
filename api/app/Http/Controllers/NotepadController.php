@@ -154,9 +154,19 @@ class NotepadController extends Controller
             $beforeOrder = $request->before_id ? ($orderIndexes[$request->before_id] ?? null) : null;
             $afterOrder = $request->after_id ? ($orderIndexes[$request->after_id] ?? null) : null;
 
+            Log::info('Order indexes', [
+                'before' => $beforeOrder,
+                'after' => $afterOrder
+            ]);
+
             $newOrder = $this->calculateNewOrderIndex($beforeOrder, $afterOrder);
 
-            $notepad_orders->where('notepad_id', $request->notepad_id)
+            Log::info('New order', [
+                'new_order' => $newOrder
+            ]);
+
+            $updated = NotepadOrder::where('company_id', $request->company_id)
+                ->where('notepad_id', $request->notepad_id)
                 ->update(['order_index' => $newOrder]);
 
             $company->increment('order_version');
@@ -164,7 +174,7 @@ class NotepadController extends Controller
 
             DB::commit();
 
-            broadcast(new NotepadReordered($request->notepad_id, $newOrder))->toOthers();
+            broadcast(new NotepadReordered($request->notepad_id, $newOrder));
 
             return response()->json(['success' => true]);
 

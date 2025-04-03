@@ -7,9 +7,7 @@ class NotepadService {
   final String baseUrl = EnvConfig.apiUrl;
 
   Future<List<Notepad>> getNotepads(String companyId) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/companies/$companyId/notepads'),
-    );
+    final response = await http.get(Uri.parse('$baseUrl/notepads/$companyId'));
     final List jsonResponse = json.decode(response.body);
     jsonResponse.sort((a, b) => a['order_index'].compareTo(b['order_index']));
     return jsonResponse.map((notepad) => Notepad.fromJson(notepad)).toList();
@@ -17,7 +15,7 @@ class NotepadService {
 
   Future<Notepad> addNotepad(String name, String companyId) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/companies/$companyId/notepads'),
+      Uri.parse('$baseUrl/notepads/$companyId'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'name': name}),
     );

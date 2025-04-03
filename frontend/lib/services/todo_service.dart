@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/todo.dart';
 import '../config/env_config.dart';
-import '../providers/company_provider.dart';
+//import '../providers/company_provider.dart';
 
 class TodoService {
   final String baseUrl = EnvConfig.apiUrl;
-  final CompanyProvider _companyProvider = CompanyProvider();
+  //final CompanyProvider _companyProvider = CompanyProvider();
 
   Future<List<Todo>> getTodos(String notepadId) async {
     final response = await http.get(

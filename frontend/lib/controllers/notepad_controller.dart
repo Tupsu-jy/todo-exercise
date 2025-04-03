@@ -19,6 +19,8 @@ class NotepadController {
       id: 'optimistic_temp',
       name: name,
       orderIndex: 2147483647, // Using maximum integer value
+      companyId: companyId,
+      orderVersion: 0,
     );
 
     // Update UI optimistically
@@ -69,9 +71,7 @@ class NotepadController {
         newIndex < notepads.length - 1 ? notepads[newIndex].id : null;
 
     // Get the version from CompanyProvider
-    final orderVersion = _getCompanyProvider().getNotepadOrderVersion(
-      companyId,
-    );
+    final orderVersion = _getCompanyProvider().getCompanyOrderVersion();
 
     // Optimistically update the list
     final movedNotepad = notepads.removeAt(oldIndex);

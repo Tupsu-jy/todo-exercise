@@ -80,7 +80,13 @@ TESTIDATA
 NOTEPADIT
 tehdään niistä samanlainen kuin todot. tehdään niille oma order taulu ja lisätään companiesiin versionti
 
+controller todo
+  -todot järkättynä notepad id:n mukaan
+  -notepad id on todo listaelementtien tiedossa. tulee kun näpäytetään notepadin nimeä
 
+controller company
+  -notepadit järkättynä company id:n mukaan
+  -mistä saa company id:n? notepad_lista? 
 
 VAIHE 3
 

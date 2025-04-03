@@ -11,6 +11,7 @@ use App\Models\Notepad;
 use App\Models\Todo;
 use App\Models\TodoOrder;
 use App\Models\CoverLetter;
+use App\Models\NotepadOrder;
 
 class InitSeeder extends Seeder
 {
@@ -243,5 +244,18 @@ GitHub: johndoe-dev"
                 'order_index' => ($index + 1) * 1000 // Gives space between items for reordering
             ]);
         }
+
+        // 8. Create notepad orders
+        NotepadOrder::create([
+            'company_id' => $company1->id,
+            'notepad_id' => $notepad1->id,
+            'order_index' => 500
+        ]);
+
+        NotepadOrder::create([
+            'company_id' => $company1->id,
+            'notepad_id' => $notepad2->id,
+            'order_index' => 1000
+        ]);
     }
 }

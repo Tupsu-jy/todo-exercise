@@ -91,7 +91,8 @@ class TodoController extends Controller
             $newOrder = $this->calculateNewOrderIndex($beforeOrder, $afterOrder);
 
             // 4. Update the todo's position
-            $todo_orders->where('todo_id', $request->todo_id)
+            $updated = TodoOrder::where('notepad_id', $request->notepad_id)
+                ->where('todo_id', $request->todo_id)
                 ->update(['order_index' => $newOrder]);
 
             // 5. Increment the order version

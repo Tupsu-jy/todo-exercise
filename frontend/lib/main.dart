@@ -27,7 +27,15 @@ void main() {
           create:
               (context) => CompanyProvider()..initializeWithSlug(companySlug),
         ),
-        ChangeNotifierProvider(create: (context) => TodoProvider()),
+        ChangeNotifierProxyProvider<CompanyProvider, TodoProvider>(
+          create:
+              (context) => TodoProvider(
+                Provider.of<CompanyProvider>(context, listen: false),
+              ),
+          update:
+              (context, companyProvider, previousTodoProvider) =>
+                  previousTodoProvider ?? TodoProvider(companyProvider),
+        ),
       ],
       child: MyApp(),
     ),
@@ -89,11 +97,45 @@ class _MyAppState extends State<MyApp> {
             listen: false,
           ).handleTodoUpdated(eventData['todo']);
           break;
+
+        case 'notepad.reordered':
+          Provider.of<CompanyProvider>(
+            context,
+            listen: false,
+          ).handleNotepadReordered(
+            eventData['notepadId'],
+            eventData['newOrder'],
+          );
+          break;
+
+        case 'notepad.created':
+          Provider.of<CompanyProvider>(
+            context,
+            listen: false,
+          ).handleNotepadCreated(eventData['notepad'], eventData['newOrder']);
+          break;
+
+        case 'notepad.deleted':
+          Provider.of<CompanyProvider>(
+            context,
+            listen: false,
+          ).handleNotepadDeleted(eventData['notepadId']);
+          break;
+
+        case 'notepad.updated':
+          Provider.of<CompanyProvider>(
+            context,
+            listen: false,
+          ).handleNotepadUpdated(eventData['notepad']);
+          break;
       }
     });
 
     channel.sink.add(
       '{"event": "pusher:subscribe", "data": {"channel": "todos"}}',
+    );
+    channel.sink.add(
+      '{"event": "pusher:subscribe", "data": {"channel": "notepads"}}',
     );
   }
 

@@ -10,6 +10,7 @@ class CompanyProvider extends ChangeNotifier {
   String? companyId;
   String? cvId;
   String? coverLetterId;
+  int notepadOrderVersion = 0;
   List<Notepad> notepads = [];
   bool isLoading = true;
   Map<int, Map<String, dynamic>> cv = {};
@@ -26,6 +27,7 @@ class CompanyProvider extends ChangeNotifier {
     companyId = company.id;
     coverLetterId = company.cover_letter_id;
     cvId = company.cv_id;
+    notepadOrderVersion = company.order_version;
     notifyListeners();
   }
 
@@ -45,6 +47,16 @@ class CompanyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  int getCompanyOrderVersion() {
+    return notepadOrderVersion;
+  }
+
+  /*
+  void incrementCompanyOrderVersion() {
+    notepadOrderVersion++;
+    notifyListeners();
+  }
+*/
   // Gets the order version of a notepad's todos
   int getNotepadOrderVersion(String notepadId) {
     final notepad = notepads.firstWhere((notepad) => notepad.id == notepadId);
@@ -53,9 +65,39 @@ class CompanyProvider extends ChangeNotifier {
 
   // Increments the order version of a notepad's todos
   void incrementOrderVersion(String notepadId) {
-    final notepad = notepads.firstWhere((notepad) => notepad.id == notepadId);
-    notepad.orderVersion++;
-    notifyListeners();
+    try {
+      print('Attempting to increment order version for notepad: $notepadId');
+      print('Current notepads: ${notepads.map((n) => n.id).toList()}');
+
+      final notepad = notepads.firstWhere(
+        (notepad) => notepad.id == notepadId,
+        orElse: () {
+          print('Notepad not found with ID: $notepadId');
+          return Notepad(
+            id: notepadId,
+            name: '',
+            companyId: companyId!,
+            orderIndex: 0,
+            orderVersion: 0,
+          );
+        },
+      );
+
+      if (notepad == null) {
+        print('Warning: Could not increment order version - notepad not found');
+        return;
+      }
+
+      print(
+        'Found notepad, incrementing order version from: ${notepad.orderVersion}',
+      );
+      notepad.orderVersion++;
+      print('New order version: ${notepad.orderVersion}');
+      notifyListeners();
+    } catch (e, stackTrace) {
+      print('Error in incrementOrderVersion: $e');
+      print('Stack trace: $stackTrace');
+    }
   }
 
   Future<void> addNotepad(String name) async {
@@ -88,6 +130,7 @@ class CompanyProvider extends ChangeNotifier {
     }
   }
 
+  // TODO: this is so pointless
   Future<void> moveNotepad(
     String notepadId,
     String? beforeId,
@@ -115,6 +158,7 @@ class CompanyProvider extends ChangeNotifier {
       if (notepads[i].id == notepadId) {
         notepads[i] = notepads[i].copyWith(orderIndex: newOrder);
         notepads.sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
+        notepadOrderVersion++;
         notifyListeners();
         return;
       }
@@ -147,6 +191,7 @@ class CompanyProvider extends ChangeNotifier {
           ...notepadData,
           'order_index': notepads[i].orderIndex, // Preserve existing order
         });
+        notepadOrderVersion++;
         notifyListeners();
         break;
       }

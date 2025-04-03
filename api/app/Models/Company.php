@@ -35,13 +35,15 @@ class Company extends Model
 	protected $casts = [
 		'id' => 'string',
 		'cv_id' => 'string',
-		'cover_letter_id' => 'string'
+		'cover_letter_id' => 'string',
+		'order_version' => 'int'
 	];
 
 	protected $fillable = [
 		'company_slug',
 		'cv_id',
-		'cover_letter_id'
+		'cover_letter_id',
+		'order_version'
 	];
 
 	public function cv()

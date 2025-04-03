@@ -6,8 +6,11 @@ import '../providers/company_provider.dart';
 // Create a new TodoProvider
 class TodoProvider extends ChangeNotifier {
   final TodoService _todoService = TodoService();
-  final CompanyProvider _companyProvider = CompanyProvider();
+  final CompanyProvider companyProvider;
   Map<String, List<Todo>> todosByNotepad = {};
+
+  // Add constructor to receive CompanyProvider
+  TodoProvider(this.companyProvider);
 
   List<Todo> getTodosForNotepad(String notepadId) {
     return todosByNotepad[notepadId] ?? [];
@@ -75,9 +78,10 @@ class TodoProvider extends ChangeNotifier {
         notepadId,
         orderVersion,
       );
+      companyProvider.incrementOrderVersion(notepadId);
     } catch (e) {
       await loadTodos(notepadId);
-      rethrow; // Rethrow so widget can still show error message
+      rethrow;
     }
   }
 
@@ -98,7 +102,6 @@ class TodoProvider extends ChangeNotifier {
             );
             todos.sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
             updateTodosForNotepad(notepadId, todos);
-            _companyProvider.incrementOrderVersion(notepadId);
             return;
           }
         }
