@@ -84,7 +84,9 @@ class TodoController {
         newIndex < todos.length - 1 ? todos[newIndex].id : null;
 
     // Get the version from CompanyProvider
-    final orderVersion = _getCompanyProvider().getOrderVersion(notepadId);
+    final orderVersion = _getCompanyProvider().getNotepadOrderVersion(
+      notepadId,
+    );
 
     // Optimistically update the list
     final movedTodo = todos.removeAt(oldIndex);

@@ -5,16 +5,28 @@ import '../models/notepad.dart';
 
 class NotepadController {
   final BuildContext context;
+  final String companyId;
 
-  NotepadController(this.context);
+  NotepadController(this.context, this.companyId);
 
   CompanyProvider _getCompanyProvider() {
     return Provider.of<CompanyProvider>(context, listen: false);
   }
 
   void addNotepad(CompanyProvider companyProvider, String name) {
-    // TODO: Implement optimistic update and API call
-    // Similar to TodoController but for notepads
+    // Create optimistic notepad
+    final newNotepad = Notepad(
+      id: 'optimistic_temp',
+      name: name,
+      orderIndex: 2147483647, // Using maximum integer value
+    );
+
+    // Update UI optimistically
+    final notepads = [...companyProvider.notepads, newNotepad];
+    companyProvider.updateNotepads(notepads);
+
+    // Make API call
+    companyProvider.addNotepad(name);
   }
 
   void editNotepad(
@@ -22,13 +34,25 @@ class NotepadController {
     Notepad notepad,
     String newName,
   ) {
-    // TODO: Implement optimistic update and API call
-    // Similar to TodoController.editTodo
+    // Update optimistically
+    final notepads =
+        companyProvider.notepads
+            .map((n) => n.id == notepad.id ? n.copyWith(name: newName) : n)
+            .toList();
+    companyProvider.updateNotepads(notepads);
+
+    // Make API call
+    companyProvider.editNotepad(notepad.id, newName);
   }
 
   void deleteNotepad(CompanyProvider companyProvider, Notepad notepad) {
-    // TODO: Implement optimistic update and API call
-    // Similar to TodoController.deleteTodo
+    // Remove optimistically
+    final notepads = [...companyProvider.notepads];
+    notepads.removeWhere((n) => n.id == notepad.id);
+    companyProvider.updateNotepads(notepads);
+
+    // Make API call
+    companyProvider.deleteNotepad(notepad.id);
   }
 
   Future<void> reorderNotepad(
@@ -45,12 +69,23 @@ class NotepadController {
         newIndex < notepads.length - 1 ? notepads[newIndex].id : null;
 
     // Get the version from CompanyProvider
-    //final orderVersion = _getCompanyProvider().getOrderVersion(companyId);
+    final orderVersion = _getCompanyProvider().getNotepadOrderVersion(
+      companyId,
+    );
 
-    // TODO: Implement optimistic update and API call
-    // Similar to TodoController.reorderTodo
+    // Optimistically update the list
+    final movedNotepad = notepads.removeAt(oldIndex);
+    notepads.insert(newIndex, movedNotepad);
+    companyProvider.updateNotepads(notepads);
+
     try {
-      // await companyProvider.moveNotepad(...)
+      await companyProvider.moveNotepad(
+        movedNotepad.id,
+        beforeId,
+        afterId,
+        companyId,
+        orderVersion,
+      );
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(
