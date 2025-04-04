@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
         case 'todo.created':
           provider.handleTodoCreated(
             eventData['todo'],
-            eventData['orderIndex'],
+            eventData['order_index'],
           );
           break;
 
@@ -82,14 +82,14 @@ class _MyAppState extends State<MyApp> {
         case 'notepad.reordered':
           provider.handleNotepadReordered(
             eventData['notepadId'],
-            eventData['newOrder'],
+            eventData['order_index'],
           );
           break;
 
         case 'notepad.created':
           provider.handleNotepadCreated(
             eventData['notepad'],
-            eventData['newOrder'],
+            eventData['order_index'],
           );
           break;
 

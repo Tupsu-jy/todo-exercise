@@ -41,7 +41,7 @@ class NotepadReordered implements ShouldBroadcastNow
     {
         return [
             'notepadId' => $this->notepadId,
-            'newOrder' => $this->newOrder
+            'order_index' => $this->newOrder
         ];
     }
 }

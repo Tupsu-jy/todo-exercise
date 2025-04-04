@@ -41,7 +41,7 @@ class TodoReordered implements ShouldBroadcastNow
     {
         return [
             'todoId' => $this->todoId,
-            'newOrder' => $this->newOrder
+            'order_index' => $this->newOrder
         ];
     }
 }

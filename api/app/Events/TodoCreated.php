@@ -35,7 +35,7 @@ class TodoCreated implements ShouldBroadcastNow
     {
         return [
             'todo' => $this->todo,
-            'orderIndex' => $this->orderIndex
+            'order_index' => $this->orderIndex
         ];
     }
 }

@@ -35,7 +35,7 @@ class NotepadCreated implements ShouldBroadcastNow
     {
         return [
             'notepad' => $this->notepad,
-            'orderIndex' => $this->orderIndex
+            'order_index' => $this->orderIndex
         ];
     }
 }

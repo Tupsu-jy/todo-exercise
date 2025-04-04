@@ -172,11 +172,19 @@ class CompanyProvider extends ChangeNotifier {
   void handleNotepadCreated(Map<String, dynamic> notepadData, int orderIndex) {
     final notepad = Notepad.fromJson({
       ...notepadData,
+      'order_version': 0,
       'order_index': orderIndex,
     });
-    notepads.add(notepad);
-    notepads.sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
-    notifyListeners();
+
+    // Check if a notepad with this ID already exists
+    final notepadExists = notepads.any((n) => n.id == notepad.id);
+
+    if (!notepadExists) {
+      notepads.removeWhere((notepad) => notepad.id == 'optimistic_temp');
+      notepads.add(notepad);
+      notepads.sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
+      notifyListeners();
+    }
   }
 
   void handleNotepadDeleted(String notepadId) {
@@ -195,7 +203,6 @@ class CompanyProvider extends ChangeNotifier {
           ...notepadData,
           'order_index': notepads[i].orderIndex, // Preserve existing order
         });
-        notepadOrderVersion++;
         notifyListeners();
         break;
       }
@@ -316,11 +323,16 @@ class CompanyProvider extends ChangeNotifier {
 
     final notepadId = todoData['notepad_id'];
     if (todosByNotepad.containsKey(notepadId)) {
-      todosByNotepad[notepadId]!.add(todo);
-      todosByNotepad[notepadId]!.sort(
-        (a, b) => a.orderIndex.compareTo(b.orderIndex),
-      );
-      notifyListeners();
+      // Check if a todo with this ID already exists
+      final todoExists = todosByNotepad[notepadId]!.any((t) => t.id == todo.id);
+
+      if (!todoExists) {
+        todosByNotepad[notepadId]!.add(todo);
+        todosByNotepad[notepadId]!.sort(
+          (a, b) => a.orderIndex.compareTo(b.orderIndex),
+        );
+        notifyListeners();
+      }
     }
   }
 
