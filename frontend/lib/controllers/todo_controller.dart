@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/todo_provider.dart';
 import '../providers/company_provider.dart';
 import '../models/todo.dart';
 
@@ -10,11 +9,11 @@ class TodoController {
 
   TodoController(this.context, this.notepadId);
 
-  CompanyProvider _getCompanyProvider() {
+  CompanyProvider _getProvider() {
     return Provider.of<CompanyProvider>(context, listen: false);
   }
 
-  void addTodo(TodoProvider todoProvider, String description) {
+  void addTodo(CompanyProvider provider, String description) {
     // Create optimistic todo
     final newTodo = Todo(
       id: 'optimistic_temp',
@@ -24,77 +23,76 @@ class TodoController {
     );
 
     // Update UI optimistically
-    final todos = [...todoProvider.getTodosForNotepad(notepadId), newTodo];
-    todoProvider.updateTodosForNotepad(notepadId, todos);
+    final todos = [...provider.getTodosForNotepad(notepadId), newTodo];
+    provider.updateTodosForNotepad(notepadId, todos);
 
     // Make API call
-    todoProvider.addTodo(description, notepadId);
+    provider.addTodo(description, notepadId);
   }
 
-  void editTodo(TodoProvider todoProvider, Todo todo, String newDescription) {
+  void editTodo(CompanyProvider provider, Todo todo, String newDescription) {
     // Update optimistically
     final todos =
-        todoProvider
+        provider
             .getTodosForNotepad(notepadId)
             .map(
               (t) =>
                   t.id == todo.id ? t.copyWith(description: newDescription) : t,
             )
             .toList();
-    todoProvider.updateTodosForNotepad(notepadId, todos);
+    provider.updateTodosForNotepad(notepadId, todos);
 
     // Make API call
-    todoProvider.editTodo(todo.id, newDescription, notepadId);
+    provider.editTodo(todo.id, newDescription, notepadId);
   }
 
-  void deleteTodo(TodoProvider todoProvider, Todo todo) {
+  void deleteTodo(CompanyProvider provider, Todo todo) {
     // Remove optimistically
-    final todos = [...todoProvider.getTodosForNotepad(notepadId)];
+    final todos = [...provider.getTodosForNotepad(notepadId)];
     todos.removeWhere((t) => t.id == todo.id);
-    todoProvider.updateTodosForNotepad(notepadId, todos);
+    provider.updateTodosForNotepad(notepadId, todos);
 
     // Make API call
-    todoProvider.deleteTodo(todo.id, notepadId);
+    provider.deleteTodo(todo.id, notepadId);
   }
 
-  void toggleTodo(TodoProvider todoProvider, Todo todo, bool newValue) {
+  void toggleTodo(CompanyProvider provider, Todo todo, bool newValue) {
     // Update optimistically
     final todos =
-        todoProvider
+        provider
             .getTodosForNotepad(notepadId)
             .map((t) => t.id == todo.id ? t.copyWith(isDone: newValue) : t)
             .toList();
-    todoProvider.updateTodosForNotepad(notepadId, todos);
+    provider.updateTodosForNotepad(notepadId, todos);
 
     // Make API call
-    todoProvider.toggleTodo(todo.id, newValue, notepadId);
+    provider.toggleTodo(todo.id, newValue, notepadId);
   }
 
   Future<void> reorderTodo(
-    TodoProvider todoProvider,
+    CompanyProvider provider,
     List<Todo> todos,
     int oldIndex,
     int newIndex,
   ) async {
     if (newIndex > oldIndex) newIndex--;
 
-    // Get IDs for API call
-    final String? beforeId = newIndex > 0 ? todos[newIndex - 1].id : null;
-    final String? afterId =
-        newIndex < todos.length - 1 ? todos[newIndex].id : null;
-
-    // Get the version from CompanyProvider
-    final orderVersion = _getCompanyProvider().getNotepadOrderVersion(
-      notepadId,
-    );
-
     // Optimistically update the list
     final movedTodo = todos.removeAt(oldIndex);
     todos.insert(newIndex, movedTodo);
-    todoProvider.updateTodosForNotepad(notepadId, todos);
+    provider.updateTodosForNotepad(notepadId, todos);
+
+    // Get IDs for API call
+    final String? beforeId = newIndex > 0 ? todos[newIndex - 1].id : null;
+
+    final String? afterId =
+        newIndex < todos.length - 1 ? todos[newIndex + 1].id : null;
+
+    // Get the version directly from the provider
+    final orderVersion = provider.getNotepadOrderVersion(notepadId);
 
     try {
-      await todoProvider.moveTodo(
+      await provider.moveTodo(
         movedTodo.id,
         beforeId,
         afterId,

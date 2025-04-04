@@ -65,18 +65,18 @@ class NotepadController {
   ) async {
     if (newIndex > oldIndex) newIndex--;
 
-    // Get IDs for API call
-    final String? beforeId = newIndex > 0 ? notepads[newIndex - 1].id : null;
-    final String? afterId =
-        newIndex < notepads.length - 1 ? notepads[newIndex].id : null;
-
-    // Get the version from CompanyProvider
-    final orderVersion = _getCompanyProvider().getCompanyOrderVersion();
-
     // Optimistically update the list
     final movedNotepad = notepads.removeAt(oldIndex);
     notepads.insert(newIndex, movedNotepad);
     companyProvider.updateNotepads(notepads);
+
+    // Get IDs for API call
+    final String? beforeId = newIndex > 0 ? notepads[newIndex - 1].id : null;
+    final String? afterId =
+        newIndex < notepads.length - 1 ? notepads[newIndex + 1].id : null;
+
+    // Get the version from CompanyProvider
+    final orderVersion = _getCompanyProvider().getCompanyOrderVersion();
 
     try {
       await companyProvider.moveNotepad(

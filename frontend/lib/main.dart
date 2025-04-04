@@ -3,7 +3,6 @@ import 'screens/main_screen.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:provider/provider.dart';
 import 'providers/company_provider.dart';
-import 'providers/todo_provider.dart';
 import 'config/env_config.dart';
 import 'dart:convert';
 
@@ -21,22 +20,8 @@ void main() {
   }
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create:
-              (context) => CompanyProvider()..initializeWithSlug(companySlug),
-        ),
-        ChangeNotifierProxyProvider<CompanyProvider, TodoProvider>(
-          create:
-              (context) => TodoProvider(
-                Provider.of<CompanyProvider>(context, listen: false),
-              ),
-          update:
-              (context, companyProvider, previousTodoProvider) =>
-                  previousTodoProvider ?? TodoProvider(companyProvider),
-        ),
-      ],
+    ChangeNotifierProvider(
+      create: (context) => CompanyProvider()..initializeWithSlug(companySlug),
       child: MyApp(),
     ),
   );
@@ -69,64 +54,51 @@ class _MyAppState extends State<MyApp> {
       }
       final eventData = jsonDecode(data['data']);
 
+      final provider = Provider.of<CompanyProvider>(context, listen: false);
+
       switch (data['event']) {
         case 'todo.reordered':
-          Provider.of<TodoProvider>(
-            context,
-            listen: false,
-          ).handleWebSocketUpdate({'event': data['event'], ...eventData});
+          provider.handleWebSocketUpdate({
+            'event': data['event'],
+            ...eventData,
+          });
           break;
 
         case 'todo.created':
-          Provider.of<TodoProvider>(
-            context,
-            listen: false,
-          ).handleTodoCreated(eventData['todo'], eventData['orderIndex']);
+          provider.handleTodoCreated(
+            eventData['todo'],
+            eventData['orderIndex'],
+          );
           break;
 
         case 'todo.deleted':
-          Provider.of<TodoProvider>(
-            context,
-            listen: false,
-          ).handleTodoDeleted(eventData['todoId']);
+          provider.handleTodoDeleted(eventData['todoId']);
           break;
 
         case 'todo.updated':
-          Provider.of<TodoProvider>(
-            context,
-            listen: false,
-          ).handleTodoUpdated(eventData['todo']);
+          provider.handleTodoUpdated(eventData['todo']);
           break;
 
         case 'notepad.reordered':
-          Provider.of<CompanyProvider>(
-            context,
-            listen: false,
-          ).handleNotepadReordered(
+          provider.handleNotepadReordered(
             eventData['notepadId'],
             eventData['newOrder'],
           );
           break;
 
         case 'notepad.created':
-          Provider.of<CompanyProvider>(
-            context,
-            listen: false,
-          ).handleNotepadCreated(eventData['notepad'], eventData['newOrder']);
+          provider.handleNotepadCreated(
+            eventData['notepad'],
+            eventData['newOrder'],
+          );
           break;
 
         case 'notepad.deleted':
-          Provider.of<CompanyProvider>(
-            context,
-            listen: false,
-          ).handleNotepadDeleted(eventData['notepadId']);
+          provider.handleNotepadDeleted(eventData['notepadId']);
           break;
 
         case 'notepad.updated':
-          Provider.of<CompanyProvider>(
-            context,
-            listen: false,
-          ).handleNotepadUpdated(eventData['notepad']);
+          provider.handleNotepadUpdated(eventData['notepad']);
           break;
       }
     });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/todo_provider.dart';
+import '../providers/company_provider.dart';
 import '../models/todo.dart';
 import '../controllers/todo_controller.dart';
 import 'list_shared/list.dart';
@@ -28,7 +28,7 @@ class _TodoListState extends State<TodoList> {
   @override
   void initState() {
     super.initState();
-    Provider.of<TodoProvider>(
+    Provider.of<CompanyProvider>(
       context,
       listen: false,
     ).loadTodos(widget.notepadId);
@@ -36,9 +36,9 @@ class _TodoListState extends State<TodoList> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TodoProvider>(
-      builder: (context, todoProvider, child) {
-        final todos = todoProvider.getTodosForNotepad(widget.notepadId);
+    return Consumer<CompanyProvider>(
+      builder: (context, companyProvider, child) {
+        final todos = companyProvider.getTodosForNotepad(widget.notepadId);
 
         return ReorderableListWidget<Todo>(
           items: todos,
@@ -46,26 +46,27 @@ class _TodoListState extends State<TodoList> {
           getId: (todo) => todo.id,
           onReorder:
               (oldIndex, newIndex) => controller.reorderTodo(
-                todoProvider,
+                companyProvider,
                 todos,
                 oldIndex,
                 newIndex,
               ),
-          onDelete: (todo) => controller.deleteTodo(todoProvider, todo),
+          onDelete: (todo) => controller.deleteTodo(companyProvider, todo),
           onEdit:
               (todo) => SharedDialogs.showEditDialog(
                 context: context,
                 title: 'Edit todo',
                 hintText: 'Edit todo description',
                 initialText: todo.description,
-                onEdit: (text) => controller.editTodo(todoProvider, todo, text),
+                onEdit:
+                    (text) => controller.editTodo(companyProvider, todo, text),
               ),
           buildLeading:
               (todo) => Checkbox(
                 value: todo.isDone,
                 onChanged:
                     (value) => controller.toggleTodo(
-                      todoProvider,
+                      companyProvider,
                       todo,
                       value ?? false,
                     ),
@@ -76,7 +77,7 @@ class _TodoListState extends State<TodoList> {
                 title: 'Add a new todo',
                 hintText: 'Enter todo description',
                 textController: _controller,
-                onAdd: (text) => controller.addTodo(todoProvider, text),
+                onAdd: (text) => controller.addTodo(companyProvider, text),
               ),
         );
       },
