@@ -323,16 +323,14 @@ class CompanyProvider extends ChangeNotifier {
 
     final notepadId = todoData['notepad_id'];
     if (todosByNotepad.containsKey(notepadId)) {
-      // Check if a todo with this ID already exists
-      final todoExists = todosByNotepad[notepadId]!.any((t) => t.id == todo.id);
-
-      if (!todoExists) {
-        todosByNotepad[notepadId]!.add(todo);
-        todosByNotepad[notepadId]!.sort(
-          (a, b) => a.orderIndex.compareTo(b.orderIndex),
-        );
-        notifyListeners();
-      }
+      todosByNotepad[notepadId]!.removeWhere(
+        (todo) => todo.id == 'optimistic_temp',
+      );
+      todosByNotepad[notepadId]!.add(todo);
+      todosByNotepad[notepadId]!.sort(
+        (a, b) => a.orderIndex.compareTo(b.orderIndex),
+      );
+      notifyListeners();
     }
   }
 

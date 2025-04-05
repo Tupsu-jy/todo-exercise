@@ -88,6 +88,8 @@ controller company
   -notepadit järkättynä company id:n mukaan
   -mistä saa company id:n? notepad_lista? 
 
+optimistinen päivitys
+
 VAIHE 3
 
 FRONTTI
