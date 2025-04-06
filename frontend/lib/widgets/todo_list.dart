@@ -20,18 +20,10 @@ class _TodoListState extends State<TodoList> {
   late TodoController controller;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    controller = TodoController(context, widget.notepadId);
-  }
-
-  @override
   void initState() {
     super.initState();
-    Provider.of<CompanyProvider>(
-      context,
-      listen: false,
-    ).loadTodos(widget.notepadId);
+    controller = TodoController(context, widget.notepadId);
+    controller.loadTodos();
   }
 
   @override
@@ -43,7 +35,7 @@ class _TodoListState extends State<TodoList> {
         return ReorderableListWidget<Todo>(
           items: todos,
           getTitle: (todo) => todo.description,
-          getId: (todo) => todo.id,
+          getId: (todo) => 'todo-${todo.id}',
           onReorder:
               (oldIndex, newIndex) => controller.reorderTodo(
                 companyProvider,

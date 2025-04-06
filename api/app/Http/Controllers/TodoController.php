@@ -231,7 +231,7 @@ class TodoController extends Controller
 
             DB::commit();
             
-            broadcast(new TodoCreated($todo, $newOrder))->toOthers();
+            broadcast(new TodoCreated($todo, $newOrder));
 
             return response()->json([
                 'todo' => $todo,
@@ -281,7 +281,7 @@ class TodoController extends Controller
             
             DB::commit();
             
-            broadcast(new TodoDeleted($id))->toOthers();
+            broadcast(new TodoDeleted($id));
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
@@ -322,6 +322,7 @@ class TodoController extends Controller
                 'is_completed' => $request->is_completed
             ]);
             DB::commit();
+            broadcast(new TodoUpdated($todo));
             return response()->json($todo);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -363,7 +364,7 @@ class TodoController extends Controller
 
             DB::commit();
             
-            broadcast(new TodoUpdated($todo))->toOthers();
+            broadcast(new TodoUpdated($todo));
 
             return response()->json($todo);
 

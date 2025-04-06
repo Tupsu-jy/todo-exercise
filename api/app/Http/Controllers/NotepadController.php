@@ -110,7 +110,7 @@ class NotepadController extends Controller
 
             DB::commit();
 
-            broadcast(new NotepadCreated($notepad, $newOrder))->toOthers();
+            broadcast(new NotepadCreated($notepad, $newOrder));
 
             return response()->json([
                 'notepad' => $notepad,

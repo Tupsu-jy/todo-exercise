@@ -33,6 +33,11 @@ class Notepad extends Model
 	public $incrementing = false;
 	public $timestamps = false;
 
+	// Add default attributes
+	protected $attributes = [
+		'order_version' => 0
+	];
+
 	protected $casts = [
 		'id' => 'string',
 		'company_id' => 'string',

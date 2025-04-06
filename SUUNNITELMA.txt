@@ -88,7 +88,24 @@ controller company
   -notepadit järkättynä company id:n mukaan
   -mistä saa company id:n? notepad_lista? 
 
-optimistinen päivitys
+provider uudelleenjärjestely
+kontrollerit
+  -komponentit kutsuu näitä
+  -täältä kutsutaan provider funktioita
+provider
+  -sisältää tilan
+  -funktiot jotka hoitaa optimistisen päivityksen ja kutsuu serviceä. hoitaa myös virheet
+web_socket_handler
+  -käyttää provideriä
+  -käsittelee websocket päivitysviestit. kutsuu funktioita jotka on samassa
+  -poistaa tempit ja lisää muutokset provider tilaan
+servicet
+  -pelkästään tekee apikutsuja
+
+todo_list kutsuu kaikkien todo hakua. onko hyvä?
+
+notepad
+lisäys
 
 VAIHE 3
 

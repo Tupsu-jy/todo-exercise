@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/company_provider.dart';
 import '../models/todo.dart';
+import '../services/todo_service.dart';
 
 class TodoController {
   final String notepadId;
   final BuildContext context;
+  final TodoService _todoService = TodoService();
 
   TodoController(this.context, this.notepadId);
 
@@ -13,13 +15,19 @@ class TodoController {
     return Provider.of<CompanyProvider>(context, listen: false);
   }
 
-  void addTodo(CompanyProvider provider, String description) {
+  Future<void> loadTodos() async {
+    final provider = _getProvider();
+    final todos = await _todoService.getTodos(notepadId);
+    provider.updateTodosForNotepad(notepadId, todos);
+  }
+
+  Future<void> addTodo(CompanyProvider provider, String description) async {
     // Create optimistic todo
     final newTodo = Todo(
       id: 'optimistic_temp',
       description: description,
       isDone: false,
-      orderIndex: 2147483647, // Using maximum integer value
+      orderIndex: 2147483647,
     );
 
     // Update UI optimistically
@@ -27,7 +35,17 @@ class TodoController {
     provider.updateTodosForNotepad(notepadId, todos);
 
     // Make API call
-    provider.addTodo(description, notepadId);
+    try {
+      final todo = await _todoService.addTodo(description, notepadId);
+    } catch (e) {
+      print(e);
+      loadTodos(); // Revert on error
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to add todo')));
+      }
+    }
   }
 
   void editTodo(CompanyProvider provider, Todo todo, String newDescription) {
@@ -43,7 +61,14 @@ class TodoController {
     provider.updateTodosForNotepad(notepadId, todos);
 
     // Make API call
-    provider.editTodo(todo.id, newDescription, notepadId);
+    _todoService.editTodo(todo.id, newDescription).catchError((e) {
+      loadTodos(); // Revert on error
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to edit todo')));
+      }
+    });
   }
 
   void deleteTodo(CompanyProvider provider, Todo todo) {
@@ -53,7 +78,14 @@ class TodoController {
     provider.updateTodosForNotepad(notepadId, todos);
 
     // Make API call
-    provider.deleteTodo(todo.id, notepadId);
+    _todoService.deleteTodo(todo.id).catchError((e) {
+      loadTodos(); // Revert on error
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to delete todo')));
+      }
+    });
   }
 
   void toggleTodo(CompanyProvider provider, Todo todo, bool newValue) {
@@ -66,7 +98,14 @@ class TodoController {
     provider.updateTodosForNotepad(notepadId, todos);
 
     // Make API call
-    provider.toggleTodo(todo.id, newValue, notepadId);
+    _todoService.toggleTodo(todo.id, newValue).catchError((e) {
+      loadTodos(); // Revert on error
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to toggle todo')));
+      }
+    });
   }
 
   Future<void> reorderTodo(
@@ -84,22 +123,23 @@ class TodoController {
 
     // Get IDs for API call
     final String? beforeId = newIndex > 0 ? todos[newIndex - 1].id : null;
-
     final String? afterId =
         newIndex < todos.length - 1 ? todos[newIndex + 1].id : null;
 
-    // Get the version directly from the provider
-    final orderVersion = provider.getNotepadOrderVersion(notepadId);
-
     try {
-      await provider.moveTodo(
+      await _todoService.moveTodo(
         movedTodo.id,
         beforeId,
         afterId,
         notepadId,
-        orderVersion,
+        provider.getNotepadOrderVersion(notepadId),
       );
+      // Increment version after successful move
+      final notepad = provider.notepads.firstWhere((n) => n.id == notepadId);
+      notepad.orderVersion++;
+      provider.notifyListeners();
     } catch (e) {
+      await loadTodos(); // Revert on error
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,

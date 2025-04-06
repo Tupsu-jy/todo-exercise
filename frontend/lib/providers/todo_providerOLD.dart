@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/todo.dart';
 import '../services/todo_service.dart';
-import '../providers/company_provider.dart';
+import 'company_provider.dart';
 
 // Create a new TodoProvider
 class TodoProvider extends ChangeNotifier {

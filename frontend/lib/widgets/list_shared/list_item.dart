@@ -37,7 +37,7 @@ class ListItem extends StatelessWidget {
       direction: DismissDirection.startToEnd,
       onDismissed: (_) => onDelete(),
       child: ListTile(
-        key: Key(id),
+        key: Key('tile-$id'),
         leading: leading,
         title: Text(title),
         onTap: onTap,
