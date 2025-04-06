@@ -119,6 +119,7 @@ FRONTTI
   -siivotaan ulkonäköä. tehdään shared widget
   -se outo juttu oikealla kännyllä avatessa
   -käännökset
+  -ulkonäkö desktopissa
 
 BACKKI
   -pitäiskö jotain testejä kirjoittaa concurrencylle? eihän sitä muuten voi testata

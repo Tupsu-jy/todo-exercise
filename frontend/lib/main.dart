@@ -6,17 +6,25 @@ import 'providers/company_provider.dart';
 import 'config/env_config.dart';
 import 'dart:convert';
 import 'services/websocket_handler.dart';
+import 'providers/language_provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   String companySlug;
+  String languageCode;
+
   try {
     final Uri uri = Uri.base;
-    companySlug =
-        uri.pathSegments.isNotEmpty
-            ? uri.pathSegments.last
-            : throw Exception('No company slug found in URL');
+    final segments = uri.pathSegments;
+    languageCode = segments.isNotEmpty ? segments[0] : 'en';
+    companySlug = segments.length > 1 ? segments[1] : 'default';
+
+    if (!['en', 'fi'].contains(languageCode)) {
+      languageCode = 'en';
+    }
   } catch (e) {
-    print('Error parsing URL: $e');
+    languageCode = 'en';
     companySlug = 'default';
   }
 
@@ -24,8 +32,16 @@ void main() {
   final wsHandler = WebSocketHandler(provider);
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => provider..initializeWithSlug(companySlug),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => provider..initializeWithSlug(companySlug),
+        ),
+        ChangeNotifierProvider(
+          create:
+              (context) => LanguageProvider()..setLocale(Locale(languageCode)),
+        ),
+      ],
       child: MyApp(wsHandler: wsHandler),
     ),
   );
@@ -49,12 +65,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        textTheme: const TextTheme(titleLarge: TextStyle(fontSize: 28.0)),
-      ),
-      debugShowCheckedModeBanner: false,
-      home: MainScreen(),
+    return Consumer<LanguageProvider>(
+      builder: (context, languageProvider, child) {
+        return MaterialApp(
+          locale: languageProvider.locale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          theme: ThemeData(
+            textTheme: const TextTheme(titleLarge: TextStyle(fontSize: 28.0)),
+          ),
+          debugShowCheckedModeBanner: false,
+          home: MainScreen(),
+        );
+      },
     );
   }
 }

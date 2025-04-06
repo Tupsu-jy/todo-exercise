@@ -6,6 +6,7 @@ import '../widgets/list_shared/list.dart';
 import '../widgets/list_shared/list_dialogs.dart';
 import '../controllers/notepad_controller.dart';
 import '../screens/todo_list_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotepadList extends StatefulWidget {
   final String companyId;
@@ -19,11 +20,13 @@ class NotepadList extends StatefulWidget {
 class _NotepadListState extends State<NotepadList> {
   final TextEditingController _controller = TextEditingController();
   late NotepadController controller;
+  late AppLocalizations l10n;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     controller = NotepadController(context, widget.companyId);
+    l10n = AppLocalizations.of(context)!;
   }
 
   @override
@@ -48,8 +51,8 @@ class _NotepadListState extends State<NotepadList> {
           onEdit:
               (notepad) => SharedDialogs.showEditDialog(
                 context: context,
-                title: 'Edit notepad',
-                hintText: 'Edit notepad name',
+                title: l10n.editNotepad,
+                hintText: l10n.editNotepadName,
                 initialText: notepad.name,
                 onEdit:
                     (text) =>
@@ -65,8 +68,8 @@ class _NotepadListState extends State<NotepadList> {
           onAdd:
               () => SharedDialogs.showAddDialog(
                 context: context,
-                title: 'Add a new notepad',
-                hintText: 'Enter notepad name',
+                title: l10n.addNewNotepad,
+                hintText: l10n.enterNotepadName,
                 textController: _controller,
                 onAdd: (text) => controller.addNotepad(companyProvider, text),
               ),

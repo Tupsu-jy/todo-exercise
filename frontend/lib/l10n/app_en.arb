@@ -1,0 +1,21 @@
+{
+    "addNotepad": "Add Notepad",
+    "editNotepad": "Edit Notepad",
+    "deleteNotepad": "Delete Notepad",
+    "addTodo": "Add Todo",
+    "editTodo": "Edit Todo",
+    "deleteTodo": "Delete Todo",
+    "save": "Save",
+    "cancel": "Cancel",
+    "add": "Add",
+    "notepads": "Notepads",
+    "about": "About",
+    "addNewNotepad": "Add a new notepad",
+    "enterNotepadName": "Enter notepad name",
+    "editNotepadName": "Edit notepad name",
+    "addNewTodo": "Add a new todo",
+    "enterTodoDescription": "Enter todo description",
+    "editTodoDescription": "Edit todo description",
+    "positionNotSpecified": "Position not specified",
+    "contactInfoNotAvailable": "Contact information not available"
+}

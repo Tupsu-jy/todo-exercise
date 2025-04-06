@@ -1,0 +1,21 @@
+{
+    "addNotepad": "Lisää muistilista",
+    "editNotepad": "Muokkaa muistilistaa",
+    "deleteNotepad": "Poista muistilista",
+    "addTodo": "Lisää tehtävä",
+    "editTodo": "Muokkaa tehtävä",
+    "deleteTodo": "Poista tehtävä",
+    "save": "Tallenna",
+    "cancel": "Peruuta",
+    "add": "Lisää",
+    "notepads": "Muistilistat",
+    "about": "Tietoa",
+    "addNewNotepad": "Lisää uusi muistilista",
+    "enterNotepadName": "Syötä muistilistan nimi",
+    "editNotepadName": "Muokkaa muistilistan nimeä",
+    "addNewTodo": "Lisää uusi tehtävä",
+    "enterTodoDescription": "Syötä tehtävän kuvaus",
+    "editTodoDescription": "Muokkaa tehtävän kuvausta",
+    "positionNotSpecified": "Tehtävää ei ole määritelty",
+    "contactInfoNotAvailable": "Yhteystiedot eivät ole saatavilla"
+}
