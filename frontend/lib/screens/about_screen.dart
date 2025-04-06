@@ -20,6 +20,7 @@ class AboutScreen extends StatelessWidget {
     String jobTitle;
     String contactInfo;
 
+    // TODO: this is stupid. Replace with proper loading thingy if not yet loaded
     try {
       jobTitle =
           cvData.entries
