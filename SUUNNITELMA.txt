@@ -128,7 +128,6 @@ BACKKI
 YHTEENSOVITUS
 
   -api rajoitukset gcp:lle
-  -
 
 VAIHE 2
 
@@ -176,6 +175,7 @@ pitäiskö olla jokin järkevämpi devausympäristö?
 
 
 VAIHE ?
+desktop näkymä silleen että kaikki listat näkyy kerralla
 gcp hostaus
   -api, websocket ja frontti kaikki käyttää cloud runia
   -psql käyttää cloud sql

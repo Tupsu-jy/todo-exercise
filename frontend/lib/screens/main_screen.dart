@@ -23,6 +23,7 @@ class MainScreen extends StatelessWidget {
               Tab(icon: Icon(Icons.info), text: l10n.about),
             ],
           ),
+          title: Text(l10n.appName),
           actions: const [LanguageSelector()],
         ),
         body: const TabBarView(children: [NotepadsScreen(), AboutScreen()]),

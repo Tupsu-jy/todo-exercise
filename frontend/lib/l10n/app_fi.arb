@@ -1,4 +1,5 @@
 {
+    "appName": "Muistilistasovellus",
     "addNotepad": "Lisää muistilista",
     "editNotepad": "Muokkaa muistilistaa",
     "deleteNotepad": "Poista muistilista",
