@@ -107,6 +107,21 @@ todo_list kutsuu kaikkien todo hakua. onko hyvä?
 notepad
 lisäys
 
+abaut avaaminen
+ongelma on että section header ja entry ovat erikseen, mutta niitä pitäiisi käsitellä samalla tavalla
+tai ehkä vaan siinä vaiheessa kun käsitellään section header niin käsitellään kaikki seuraavat entryt samalla
+siis kun tulee vastaan niin otetaan kaikki sitä seuraavat entryt ja syötetään ne samalle expandable widgetille
+
+
+VAIHE 4
+
+FRONTTI
+  -desktop näkymä
+  -se abaut sivun osioiden avaamisjuttu
+
+BACKKI
+  -siivoominen
+
 VAIHE 3
 
 FRONTTI
@@ -119,10 +134,6 @@ FRONTTI
 
 BACKKI
   -db vois vaihtaa sen yhen kentän jsonb:ksi
-
-YHTEENSOVITUS
-
-  -api rajoitukset gcp:lle
 
 VAIHE 2
 
@@ -169,3 +180,8 @@ desktop näkymä silleen että kaikki listat näkyy kerralla
 siistitään kaikki yhteensovitukset (ei env cors policyt etc)
 testaus
 cors joksikin järkeväksi
+api rajoitukset gcp:lle
+muistilistojen siirtely
+saavutettavuus
+
+

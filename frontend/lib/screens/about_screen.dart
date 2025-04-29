@@ -6,6 +6,7 @@ import '../widgets/cv/cv_section_header.dart';
 import '../widgets/cv/cv_entry.dart';
 import '../widgets/cv/cover_letter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../widgets/cv/expandable_cv_section.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -17,35 +18,46 @@ class AboutScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     // Find the job title and contact info components
-    String jobTitle;
-    String contactInfo;
+    String jobTitle = '';
+    String contactInfo = '';
 
-    // TODO: this is stupid. Replace with proper loading thingy if not yet loaded
-    try {
-      jobTitle =
-          cvData.entries
-              .firstWhere(
-                (entry) => entry.value['category'] == 'job_title',
-                orElse: () => throw Exception('Job title not found in CV data'),
-              )
-              .value['text_${l10n.localeName}'];
-    } catch (e) {
-      print('Error getting job title: $e'); // For development
-      jobTitle = l10n.positionNotSpecified; // Fallback value
+    for (final entry in cvData.entries) {
+      final component = entry.value;
+      if (component['category'] == 'job_title') {
+        jobTitle = component['text_${l10n.localeName}'];
+      } else if (component['category'] == 'contact_info') {
+        contactInfo = component['text_${l10n.localeName}'];
+      }
     }
 
-    try {
-      contactInfo =
-          cvData.entries
-              .firstWhere(
-                (entry) => entry.value['category'] == 'contact_info',
-                orElse:
-                    () => throw Exception('Contact info not found in CV data'),
-              )
-              .value['text_${l10n.localeName}'];
-    } catch (e) {
-      print('Error getting contact info: $e'); // For development
-      contactInfo = l10n.contactInfoNotAvailable; // Fallback value
+    // Group entries by section
+    final List<Map<String, dynamic>> sections = [];
+    Map<String, dynamic>? currentSection;
+
+    for (final entry in cvData.entries) {
+      final Map<String, dynamic> component = entry.value;
+      final String category = component['category'];
+
+      if (category == 'section_header') {
+        // Start a new section
+        if (currentSection != null) {
+          sections.add(currentSection);
+        }
+
+        currentSection = {
+          'header': component['text_${l10n.localeName}'],
+          'entries': <Map<String, dynamic>>[],
+        };
+      } else if (category == 'entry' && currentSection != null) {
+        // Add entry to current section
+        currentSection['entries'].add(component);
+      }
+      // Skip job_title and contact_info as they're in the header
+    }
+
+    // Add the last section if it exists
+    if (currentSection != null) {
+      sections.add(currentSection);
     }
 
     return Scaffold(
@@ -55,29 +67,24 @@ class AboutScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CvHeader(jobTitle: jobTitle, contactInfo: contactInfo),
-            ...cvData.entries.map((entry) {
-              final Map<String, dynamic> component = entry.value;
-              final String category = component['category'];
-              final dynamic text = component['text_${l10n.localeName}'];
 
-              switch (category) {
-                case 'section_header':
-                  return CvSectionHeader(text: text);
-                case 'entry':
-                  return CvEntry(
-                    title: text['title'],
-                    content: text['content'],
-                  );
-                case 'job_title':
-                case 'contact_info':
-                  return const SizedBox.shrink(); // Skip these as they're in header
-                default:
-                  return const SizedBox.shrink();
-              }
-            }),
-            CoverLetter(
-              coverLetter: coverLetterData['text_${l10n.localeName}'],
+            // Render expandable sections
+            ...sections.map(
+              (section) => ExpandableCvSection(
+                sectionTitle: section['header'],
+                entries: section['entries'],
+                locale: l10n.localeName,
+              ),
             ),
+
+            // Cover letter at the end
+            // if (coverLetterData != null)
+            //   ExpandableCvSection(
+            //     sectionTitle: l10n.coverLetter,
+            //     isCoverLetter: true,
+            //     coverLetterText: coverLetterData['text_${l10n.localeName}'],
+            //     locale: l10n.localeName,
+            //   ),
           ],
         ),
       ),
