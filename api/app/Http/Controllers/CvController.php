@@ -70,9 +70,17 @@ class CvController extends Controller
     {
         $cvId = $request->query('cv_id');
         
+        if (!$cvId) {
+            return response()->json(['message' => 'CV ID is required'], 400);
+        }
+        
         $cvComponentMappings = CvComponentMapping::where('cv_id', $cvId)
             ->orderBy('display_order')
             ->get();
+        
+        if ($cvComponentMappings->isEmpty()) {
+            return response()->json(['message' => 'CV not found'], 404);
+        }
 
         $cvComponents = CvComponent::whereIn('id', $cvComponentMappings->pluck('component_id'))->get();
         $response = [];

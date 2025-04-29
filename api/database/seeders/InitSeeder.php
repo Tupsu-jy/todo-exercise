@@ -54,33 +54,33 @@ GitHub: johndoe-dev"
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Programming", "content": "C++, Ruby, Go, Rust, Swift"}',
-                'text_fi' => '{"title": "Ohjelmointi", "content": "C++, Ruby, Go, Rust, Swift"}'
+                'text_en' => ['title' => 'Programming', 'content' => 'C++, Ruby, Go, Rust, Swift'],
+                'text_fi' => ['title' => 'Ohjelmointi', 'content' => 'C++, Ruby, Go, Rust, Swift']
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Frameworks", "content": "Vue.js, Laravel, Ruby on Rails, Flutter, Angular"}',
-                'text_fi' => '{"title": "Ohjelmistokehykset", "content": "Vue.js, Laravel, Ruby on Rails, Flutter, Angular"}'
+                'text_en' => ['title' => 'Frameworks', 'content' => 'Vue.js, Laravel, Ruby on Rails, Flutter, Angular'],
+                'text_fi' => ['title' => 'Ohjelmistokehykset', 'content' => 'Vue.js, Laravel, Ruby on Rails, Flutter, Angular']
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Databases", "content": "MySQL, Redis, Cassandra"}',
-                'text_fi' => '{"title": "Tietokannat", "content": "MySQL, Redis, Cassandra"}'
+                'text_en' => ['title' => 'Databases', 'content' => 'MySQL, Redis, Cassandra'],
+                'text_fi' => ['title' => 'Tietokannat', 'content' => 'MySQL, Redis, Cassandra']
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Tools", "content": "AWS, Azure, Kubernetes, Jenkins, Terraform"}',
-                'text_fi' => '{"title": "Työkalut", "content": "AWS, Azure, Kubernetes, Jenkins, Terraform"}'
+                'text_en' => ['title' => 'Tools', 'content' => 'AWS, Azure, Kubernetes, Jenkins, Terraform'],
+                'text_fi' => ['title' => 'Työkalut', 'content' => 'AWS, Azure, Kubernetes, Jenkins, Terraform']
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Methods", "content": "Kanban, DevOps, Microservices, DDD"}',
-                'text_fi' => '{"title": "Menetelmät", "content": "Kanban, DevOps, Microservices, DDD"}'
+                'text_en' => ['title' => 'Methods', 'content' => 'Kanban, DevOps, Microservices, DDD'],
+                'text_fi' => ['title' => 'Menetelmät', 'content' => 'Kanban, DevOps, Microservices, DDD']
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Languages", "content": "Finnish(native), English(fluent), Swedish(basic)"}',
-                'text_fi' => '{"title": "Kielet", "content": "Suomi(äidinkieli), englanti(erinomainen), ruotsi(perusteet)"}'
+                'text_en' => ['title' => 'Languages', 'content' => 'Finnish(native), English(fluent), Swedish(basic)'],
+                'text_fi' => ['title' => 'Kielet', 'content' => 'Suomi(äidinkieli), englanti(erinomainen), ruotsi(perusteet)']
             ]),
             CvComponent::create([
                 'category' => 'section_header',
@@ -89,13 +89,13 @@ GitHub: johndoe-dev"
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "Technical University of Innovation", "content": "Computer Science (09.2018 - 06.2023). 300 ECTS program (290/300 completed). Specialization in Cloud Computing."}',
-                'text_fi' => '{"title": "Teknillinen innovaatioyliopisto", "content": "Tietotekniikka (09.2018 - 06.2023). 300 op ohjelma (290/300 suoritettu). Erikoistuminen pilvilaskentaan."}'
+                'text_en' => ['title' => 'Technical University of Innovation', 'content' => 'Computer Science (09.2018 - 06.2023). 300 ECTS program (290/300 completed). Specialization in Cloud Computing.'],
+                'text_fi' => ['title' => 'Teknillinen innovaatioyliopisto', 'content' => 'Tietotekniikka (09.2018 - 06.2023). 300 op ohjelma (290/300 suoritettu). Erikoistuminen pilvilaskentaan.']
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "City College of Technology", "content": "Information Systems (08.2015 - 05.2018) (120 credits completed)"}',
-                'text_fi' => '{"title": "Kaupungin teknologiakorkeakoulu", "content": "Tietojärjestelmät (08.2015 - 05.2018) (120 op suoritettu)"}'
+                'text_en' => ['title' => 'City College of Technology', 'content' => 'Information Systems (08.2015 - 05.2018) (120 credits completed)'],
+                'text_fi' => ['title' => 'Kaupungin teknologiakorkeakoulu', 'content' => 'Tietojärjestelmät (08.2015 - 05.2018) (120 op suoritettu)']
             ]),
             CvComponent::create([
                 'category' => 'section_header',
@@ -104,18 +104,18 @@ GitHub: johndoe-dev"
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "TechCorp Solutions", "content": "Senior Developer from 03.2021 to 12.2023. Developed cloud-native applications using microservices architecture. Led a team of 5 developers in implementing new features and maintaining existing systems. Technologies: Kubernetes, Go, MongoDB, Redis."}',
-                'text_fi' => '{"title": "TechCorp Solutions", "content": "Senior kehittäjä 03.2021-12.2023. Kehitin pilvinatiiveja sovelluksia mikropalveluarkkitehtuurilla. Johdin 5 hengen kehitystiimiä uusien ominaisuuksien toteutuksessa ja ylläpidossa. Teknologiat: Kubernetes, Go, MongoDB, Redis."}'
+                'text_en' => ['title' => 'TechCorp Solutions', 'content' => 'Senior Developer from 03.2021 to 12.2023. Developed cloud-native applications using microservices architecture. Led a team of 5 developers in implementing new features and maintaining existing systems. Technologies: Kubernetes, Go, MongoDB, Redis.'],
+                'text_fi' => ['title' => 'TechCorp Solutions', 'content' => 'Senior kehittäjä 03.2021-12.2023. Kehitin pilvinatiiveja sovelluksia mikropalveluarkkitehtuurilla. Johdin 5 hengen kehitystiimiä uusien ominaisuuksien toteutuksessa ja ylläpidossa. Teknologiat: Kubernetes, Go, MongoDB, Redis.']
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "DataFlow Systems", "content": "Full Stack Developer during 06.2020-02.2021. Implemented real-time data processing pipelines and visualization dashboards. Worked with React, Node.js, and PostgreSQL in an agile team environment."}',
-                'text_fi' => '{"title": "DataFlow Systems", "content": "Full Stack kehittäjä 06.2020-02.2021. Toteutin reaaliaikaisia datankäsittelyputkia ja visualisointinäkymiä. Työskentelin React, Node.js ja PostgreSQL teknologioilla ketterässä tiimissä."}'
+                'text_en' => ['title' => 'DataFlow Systems', 'content' => 'Full Stack Developer during 06.2020-02.2021. Implemented real-time data processing pipelines and visualization dashboards. Worked with React, Node.js, and PostgreSQL in an agile team environment.'],
+                'text_fi' => ['title' => 'DataFlow Systems', 'content' => 'Full Stack kehittäjä 06.2020-02.2021. Toteutin reaaliaikaisia datankäsittelyputkia ja visualisointinäkymiä. Työskentelin React, Node.js ja PostgreSQL teknologioilla ketterässä tiimissä.']
             ]),
             CvComponent::create([
                 'category' => 'entry',
-                'text_en' => '{"title": "CloudScale Inc", "content": "Cloud Engineer since 01.2024. Designing and implementing scalable cloud infrastructure solutions. Working with AWS, Terraform, and containerization technologies. Focus on automation and infrastructure as code."}',
-                'text_fi' => '{"title": "CloudScale Inc", "content": "Pilvi-insinööri 01.2024 alkaen. Suunnittelen ja toteutan skaalautuvia pilvi-infrastruktuuriratkaisuja. Työskentelen AWS:n, Terraformin ja kontitusteknologioiden parissa. Painopiste automaatiossa ja infrastruktuurissa koodina."}'
+                'text_en' => ['title' => 'CloudScale Inc', 'content' => 'Cloud Engineer since 01.2024. Designing and implementing scalable cloud infrastructure solutions. Working with AWS, Terraform, and containerization technologies. Focus on automation and infrastructure as code.'],
+                'text_fi' => ['title' => 'CloudScale Inc', 'content' => 'Pilvi-insinööri 01.2024 alkaen. Suunnittelen ja toteutan skaalautuvia pilvi-infrastruktuuriratkaisuja. Työskentelen AWS:n, Terraformin ja kontitusteknologioiden parissa. Painopiste automaatiossa ja infrastruktuurissa koodina.']
             ]),
             CvComponent::create([
                 'category' => 'section_header',

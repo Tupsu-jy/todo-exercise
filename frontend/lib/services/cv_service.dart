@@ -12,10 +12,6 @@ class CvService {
 
     final Map<String, dynamic> jsonResponse = json.decode(response.body);
     return jsonResponse.map((key, value) {
-      if (value['category'] == 'entry') {
-        value['text_en'] = json.decode(value['text_en']);
-        value['text_fi'] = json.decode(value['text_fi']);
-      }
       return MapEntry(int.parse(key), value);
     });
   }

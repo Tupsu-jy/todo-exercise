@@ -33,7 +33,9 @@ class CvComponent extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'id' => 'string'
+		'id' => 'string',
+		'text_en' => 'array',
+		'text_fi' => 'array',
 	];
 
 	protected $fillable = [

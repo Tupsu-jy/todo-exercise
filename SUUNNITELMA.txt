@@ -113,16 +113,11 @@ FRONTTI
   -optimistinen päivitys kaikkeen
   -notepadien crud. lisäys. poisto. muokkaus. ei uudelleenjärjestelyä vielä.
   -broadcast päivitykset kaikkeen
-  -koitetaan nopeuttaa sivun latausta avatessa (company_slug vs id). ei vielä
   -koodi on sotkuista. jaettu komponentti
-
   -siivotaan ulkonäköä
   -käännökset
 
 BACKKI
-
-  -pitäiskö jotain testejä kirjoittaa concurrencylle? eihän sitä muuten voi testata
-  -cors joksikin järkeväksi
   -db vois vaihtaa sen yhen kentän jsonb:ksi
 
 YHTEENSOVITUS
@@ -168,19 +163,9 @@ BACKKI
 
 
 YHTEENSOVITUS
-käynnistetään kaikki sit tuotannossa docker composella
-
-pitäiskö olla jokin järkevämpi devausympäristö?
-
-
 
 VAIHE ?
 desktop näkymä silleen että kaikki listat näkyy kerralla
-gcp hostaus
-  -api, websocket ja frontti kaikki käyttää cloud runia
-  -psql käyttää cloud sql
-käännökset
 siistitään kaikki yhteensovitukset (ei env cors policyt etc)
 testaus
-ulkonäkö frontissa nätiksi
-useita notepadeja. eli siis voi luoda uuden listan muistiinpanoja ja ne on listattu jossain
+cors joksikin järkeväksi
