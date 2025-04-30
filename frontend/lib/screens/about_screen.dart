@@ -57,6 +57,8 @@ class AboutScreen extends StatelessWidget {
 
     // Add the last section if it exists
     if (currentSection != null) {
+      // Add cover letter to the last section TODO: too hardcoded. not good
+      currentSection['entries'].add(coverLetterData);
       sections.add(currentSection);
     }
 
@@ -76,15 +78,6 @@ class AboutScreen extends StatelessWidget {
                 locale: l10n.localeName,
               ),
             ),
-
-            // Cover letter at the end
-            // if (coverLetterData != null)
-            //   ExpandableCvSection(
-            //     sectionTitle: l10n.coverLetter,
-            //     isCoverLetter: true,
-            //     coverLetterText: coverLetterData['text_${l10n.localeName}'],
-            //     locale: l10n.localeName,
-            //   ),
           ],
         ),
       ),
