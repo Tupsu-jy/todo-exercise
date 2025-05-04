@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/company_provider.dart';
-import '../models/notepad.dart';
-import '../widgets/list_shared/list.dart';
-import '../widgets/list_shared/list_dialogs.dart';
-import '../controllers/notepad_controller.dart';
-import '../screens/todo_list_screen.dart';
+import '../../providers/company_provider.dart';
+import '../../models/notepad.dart';
+import '../list_shared/list.dart';
+import '../list_shared/list_dialogs.dart';
+import '../../controllers/notepad_controller.dart';
+import '../../screens/todo_list_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotepadList extends StatefulWidget {

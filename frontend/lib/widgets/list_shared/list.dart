@@ -28,22 +28,25 @@ class ReorderableListWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ReorderableListView.builder(
-          itemCount: items.length,
-          onReorder: onReorder,
-          itemBuilder: (context, index) {
-            final item = items[index];
-            return ListItem(
-              key: Key(getId(item)),
-              id: getId(item),
-              title: getTitle(item),
-              index: index,
-              onDelete: () => onDelete(item),
-              onEdit: () => onEdit(item),
-              leading: buildLeading?.call(item),
-              onTap: onTap != null ? () => onTap!(item) : null,
-            );
-          },
+        Padding(
+          padding: const EdgeInsets.only(bottom: 80),
+          child: ReorderableListView.builder(
+            itemCount: items.length,
+            onReorder: onReorder,
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return ListItem(
+                key: Key(getId(item)),
+                id: getId(item),
+                title: getTitle(item),
+                index: index,
+                onDelete: () => onDelete(item),
+                onEdit: () => onEdit(item),
+                leading: buildLeading?.call(item),
+                onTap: onTap != null ? () => onTap!(item) : null,
+              );
+            },
+          ),
         ),
         Positioned(
           right: 16,

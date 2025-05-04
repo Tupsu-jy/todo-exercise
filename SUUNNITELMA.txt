@@ -117,6 +117,8 @@ VAIHE 4
 
 FRONTTI
   -desktop näkymä
+    listat pitää pystyä poistamaan myös desktopissa
+    nappi peittää sisältöä
   -se abaut sivun osioiden avaamisjuttu
 
 BACKKI
