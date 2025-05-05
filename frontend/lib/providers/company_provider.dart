@@ -33,6 +33,12 @@ class CompanyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> fetchNotepadOrderVersion() async {
+    final company = await CompanyService().getCompany(companySlug!);
+    notepadOrderVersion = company.order_version;
+    notifyListeners();
+  }
+
   Future<void> fetchNotepads() async {
     final notepads = await NotepadService().getNotepads(companyId!);
     this.notepads = notepads;

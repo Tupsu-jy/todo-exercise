@@ -135,9 +135,9 @@ class TodoController {
         provider.getNotepadOrderVersion(notepadId),
       );
       // Increment version after successful move
-      final notepad = provider.notepads.firstWhere((n) => n.id == notepadId);
-      notepad.orderVersion++;
-      provider.notifyListeners();
+      //final notepad = provider.notepads.firstWhere((n) => n.id == notepadId);
+      //notepad.orderVersion++;
+      //provider.notifyListeners();
     } catch (e) {
       await loadTodos(); // Revert on error
       if (context.mounted) {

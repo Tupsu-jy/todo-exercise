@@ -17,14 +17,15 @@ class NotepadReordered implements ShouldBroadcastNow
 
     public $notepadId;
     public $newOrder;
-
+    public $orderVersion;
     /**
      * Create a new event instance.
      */
-    public function __construct($notepadId, $newOrder)
+    public function __construct($notepadId, $newOrder, $orderVersion)
     {
         $this->notepadId = $notepadId;
         $this->newOrder = $newOrder;
+        $this->orderVersion = $orderVersion;
     }
 
     public function broadcastOn()
@@ -41,7 +42,8 @@ class NotepadReordered implements ShouldBroadcastNow
     {
         return [
             'notepadId' => $this->notepadId,
-            'order_index' => $this->newOrder
+            'order_index' => $this->newOrder,
+            'order_version' => $this->orderVersion
         ];
     }
 }

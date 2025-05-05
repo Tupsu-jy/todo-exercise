@@ -17,14 +17,15 @@ class TodoReordered implements ShouldBroadcastNow
 
     public $todoId;
     public $newOrder;
-
+    public $orderVersion;
     /**
      * Create a new event instance.
      */
-    public function __construct($todoId, $newOrder)
+    public function __construct($todoId, $newOrder, $orderVersion)
     {
         $this->todoId = $todoId;
         $this->newOrder = $newOrder;
+        $this->orderVersion = $orderVersion;
     }
 
     public function broadcastOn()
@@ -41,7 +42,8 @@ class TodoReordered implements ShouldBroadcastNow
     {
         return [
             'todoId' => $this->todoId,
-            'order_index' => $this->newOrder
+            'order_index' => $this->newOrder,
+            'order_version' => $this->orderVersion
         ];
     }
 }

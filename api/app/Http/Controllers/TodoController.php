@@ -103,7 +103,7 @@ class TodoController extends Controller
             Log::info('Transaction committed successfully');
 
             // 6. Broadcast the new order index to all clients
-            broadcast(new TodoReordered($request->todo_id, $newOrder));
+            broadcast(new TodoReordered($request->todo_id, $newOrder, $notepad->order_version));
 
             return response()->json(['success' => true]);
 

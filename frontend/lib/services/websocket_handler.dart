@@ -28,7 +28,7 @@ class WebSocketHandler {
 
       switch (data['event']) {
         case 'todo.reordered':
-          handleWebSocketUpdate({'event': data['event'], ...eventData});
+          handleTodoReordered({'event': data['event'], ...eventData});
           break;
 
         case 'todo.created':
@@ -47,6 +47,7 @@ class WebSocketHandler {
           handleNotepadReordered(
             eventData['notepadId'],
             eventData['order_index'],
+            eventData['order_version'],
           );
           break;
 
@@ -77,11 +78,11 @@ class WebSocketHandler {
   }
 
   // Moving all the handlers from CompanyProvider
-  void handleWebSocketUpdate(Map<String, dynamic> data) {
+  void handleTodoReordered(Map<String, dynamic> data) {
     if (data['event'] == 'todo.reordered') {
       final String todoId = data['todoId'];
       final int newOrder = data['order_index'];
-
+      final int orderVersion = data['order_version'];
       provider.todosByNotepad.forEach((notepadId, todos) {
         for (var i = 0; i < todos.length; i++) {
           if (todos[i].id == todoId) {
@@ -92,6 +93,21 @@ class WebSocketHandler {
               orderIndex: newOrder,
             );
             todos.sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
+            final notepad = provider.notepads.firstWhere(
+              (n) => n.id == notepadId,
+            );
+            if (orderVersion == notepad.orderVersion + 1) {
+              notepad.orderVersion = orderVersion;
+            } else {
+              // Fetch notepads again if mismatch
+              provider.fetchNotepads();
+              print(
+                'Error: Order version mismatch detected. Expected: ${provider.notepadOrderVersion + 1}, Received: $orderVersion',
+              );
+              print(
+                'Fetching latest notepad order version and notepads to resync state...',
+              );
+            }
             provider.updateTodosForNotepad(notepadId, todos);
             return;
           }
@@ -153,14 +169,31 @@ class WebSocketHandler {
     }
   }
 
-  void handleNotepadReordered(String notepadId, int newOrder) {
+  void handleNotepadReordered(
+    String notepadId,
+    int newOrder,
+    int orderVersion,
+  ) {
     for (var i = 0; i < provider.notepads.length; i++) {
       if (provider.notepads[i].id == notepadId) {
         provider.notepads[i] = provider.notepads[i].copyWith(
           orderIndex: newOrder,
         );
         provider.notepads.sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
-        provider.notepadOrderVersion++;
+        if (orderVersion == provider.notepadOrderVersion + 1) {
+          provider.notepadOrderVersion = orderVersion;
+        } else {
+          // Fetch notepads order version again if mismatch
+          provider.fetchNotepadOrderVersion();
+          // Also fetch notepads again
+          provider.fetchNotepads();
+          print(
+            'Error: Order version mismatch detected. Expected: ${provider.notepadOrderVersion + 1}, Received: $orderVersion',
+          );
+          print(
+            'Fetching latest notepad order version and notepads to resync state...',
+          );
+        }
         provider.notifyListeners();
         return;
       }

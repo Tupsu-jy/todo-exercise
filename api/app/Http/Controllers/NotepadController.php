@@ -174,7 +174,7 @@ class NotepadController extends Controller
 
             DB::commit();
 
-            broadcast(new NotepadReordered($request->notepad_id, $newOrder));
+            broadcast(new NotepadReordered($request->notepad_id, $newOrder, $company->order_version));
 
             return response()->json(['success' => true]);
 

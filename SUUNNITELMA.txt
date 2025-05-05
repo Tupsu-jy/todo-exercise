@@ -113,13 +113,22 @@ tai ehkä vaan siinä vaiheessa kun käsitellään section header niin käsitell
 siis kun tulee vastaan niin otetaan kaikki sitä seuraavat entryt ja syötetään ne samalle expandable widgetille
 
 
+ost
+frontista lähtee backkiin reorder request
+backissä tarkistetaan onko order version oikein
+jos ei niin palautetaan virhe josta frontti osaa ladata uudestaan
+jos on niin inkrementoidaan order version
+ja lähetetään broadcast jossa on uusi order version
+frontti päivittää sen ja käyttää sitä seuraavassa reorder requestissa
+frontissa ei inkrementoida mitään
+
 VAIHE 4
 
 FRONTTI
   -desktop näkymä
     listat pitää pystyä poistamaan myös desktopissa
-    nappi peittää sisältöä
   -se abaut sivun osioiden avaamisjuttu
+  -listojen siirtäminen buginen
 
 BACKKI
   -siivoominen

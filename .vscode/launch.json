@@ -9,7 +9,7 @@
       "cwd": "api",
       "type": "php",
       "request": "launch",
-      "runtimeExecutable": "/usr/bin/php",
+      "runtimeExecutable": "php",
       "runtimeArgs": [
         "artisan",
         "serve"
