@@ -39,13 +39,17 @@ class _NotepadListState extends State<NotepadList> {
           items: notepads,
           getTitle: (notepad) => notepad.name,
           getId: (notepad) => 'notepad-${notepad.id}',
-          onReorder:
-              (oldIndex, newIndex) => controller.reorderNotepad(
-                companyProvider,
-                notepads,
-                oldIndex,
-                newIndex,
-              ),
+          onReorder: (oldIndex, newIndex) {
+            if (newIndex > oldIndex) {
+              newIndex--;
+            }
+            controller.reorderNotepad(
+              companyProvider,
+              notepads,
+              oldIndex,
+              newIndex,
+            );
+          },
           onDelete:
               (notepad) => controller.deleteNotepad(companyProvider, notepad),
           onEdit:

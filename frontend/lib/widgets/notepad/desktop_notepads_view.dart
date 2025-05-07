@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/providers/company_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:reorderable_grid/reorderable_grid.dart';
 
 // New widget for desktop view
 class DesktopNotepadsView extends StatelessWidget {
@@ -16,6 +17,7 @@ class DesktopNotepadsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final controller = NotepadController(context, companyId);
 
     return Consumer<CompanyProvider>(
       builder: (context, companyProvider, child) {
@@ -92,7 +94,14 @@ class DesktopNotepadsView extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Expanded(
-                child: GridView.builder(
+                child: ReorderableGrid(
+                  onReorder:
+                      (oldIndex, newIndex) => controller.reorderNotepad(
+                        companyProvider,
+                        notepads,
+                        oldIndex,
+                        newIndex,
+                      ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
                     childAspectRatio: 0.7,
@@ -102,7 +111,11 @@ class DesktopNotepadsView extends StatelessWidget {
                   itemCount: notepads.length,
                   itemBuilder: (context, index) {
                     final notepad = notepads[index];
-                    return TodoListCard(notepad: notepad);
+                    return TodoListCard(
+                      index: index,
+                      key: ValueKey(notepad.id),
+                      notepad: notepad,
+                    );
                   },
                 ),
               ),

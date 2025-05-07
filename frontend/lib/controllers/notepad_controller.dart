@@ -91,7 +91,12 @@ class NotepadController {
     int oldIndex,
     int newIndex,
   ) async {
-    if (newIndex > oldIndex) newIndex--;
+    print('oldindex: $oldIndex');
+    print('newindex: $newIndex');
+
+    // There is no need to check if newIndex is greater than oldIndex here
+    // because that is moved to function call for mobile and for desktop
+    // it would brake things
 
     // Optimistically update the list
     final movedNotepad = notepads.removeAt(oldIndex);

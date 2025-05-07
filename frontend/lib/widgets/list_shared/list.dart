@@ -31,6 +31,7 @@ class ReorderableListWidget<T> extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 80),
           child: ReorderableListView.builder(
+            buildDefaultDragHandles: false,
             itemCount: items.length,
             onReorder: onReorder,
             itemBuilder: (context, index) {

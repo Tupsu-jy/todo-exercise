@@ -7,12 +7,14 @@ import 'package:frontend/widgets/list_shared/list_dialogs.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:frontend/widgets/todo_list.dart';
+import 'package:reorderable_grid/reorderable_grid.dart';
 
 // Card widget to display each todo list in the grid
 class TodoListCard extends StatelessWidget {
   final Notepad notepad;
+  final int index;
 
-  const TodoListCard({super.key, required this.notepad});
+  const TodoListCard({super.key, required this.notepad, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +70,10 @@ class TodoListCard extends StatelessWidget {
                       onPressed: () {
                         controller.deleteNotepad(companyProvider, notepad);
                       },
+                    ),
+                    ReorderableGridDragStartListener(
+                      index: index,
+                      child: const Icon(Icons.drag_handle),
                     ),
                   ],
                 ),

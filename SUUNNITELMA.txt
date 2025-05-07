@@ -135,6 +135,9 @@ desktop -> mobiili
   lisäys toimii
   muokkaus toimii
 
+desktop siirto
+mobiili käyttää kirjastoa ReorderableListWidget
+jos löytyis samanlainen
 
 VAIHE 4
 

@@ -41,6 +41,7 @@ dependencies:
   provider: ^6.1.2
   intl: ^0.19.0
   web: ^1.1.1
+  reorderable_grid: ^1.0.10
 
 dev_dependencies:
   flutter_test:
