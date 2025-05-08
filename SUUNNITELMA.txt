@@ -139,6 +139,13 @@ desktop siirto
 mobiili käyttää kirjastoa ReorderableListWidget
 jos löytyis samanlainen
 
+about sivu päivitys:
+  section headerien categorioita muutetaan hiukan, niin että letter ja info headerit voidaan tunnistaa koodissa
+  
+  luodaan uusi taulu vain infoa varten
+
+  muokataan frontin logiikkaa toimimaan uudella tavalla
+
 VAIHE 4
 
 FRONTTI
@@ -147,6 +154,12 @@ FRONTTI
     listoja pitää pystyä siirtämään desktopissa (ainoa mikä puuttuu frontista)
   -se abaut sivun osioiden avaamisjuttu
   -listojen siirtäminen buginen
+  -about sivulle tietoa projusta
+    mihin laitan proju tiedon?
+      vaihtoehdot:
+        cv_components
+        cover_letters
+        oma taulu? jossa on aina kaikille hakemuksille sama tieto
 
 BACKKI
   -siivoominen

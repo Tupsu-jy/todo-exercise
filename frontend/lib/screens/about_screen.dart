@@ -15,6 +15,7 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cvData = Provider.of<CompanyProvider>(context).cv;
     final coverLetterData = Provider.of<CompanyProvider>(context).coverLetter;
+    final projectInfoData = Provider.of<CompanyProvider>(context).projectInfo;
     final l10n = AppLocalizations.of(context)!;
 
     // Find the job title and contact info components
@@ -51,14 +52,33 @@ class AboutScreen extends StatelessWidget {
       } else if (category == 'entry' && currentSection != null) {
         // Add entry to current section
         currentSection['entries'].add(component);
+      } else if (category == 'section_header_info') {
+        if (currentSection != null) {
+          sections.add(currentSection);
+        }
+
+        currentSection = {
+          'header': component['text_${l10n.localeName}'],
+          'entries': <Map<String, dynamic>>[],
+        };
+        // Add project info to this section
+        currentSection['entries'].add(projectInfoData);
+      } else if (category == 'section_header_letter') {
+        if (currentSection != null) {
+          sections.add(currentSection);
+        }
+
+        currentSection = {
+          'header': component['text_${l10n.localeName}'],
+          'entries': <Map<String, dynamic>>[],
+        };
+        // Add cover letter to this section
+        currentSection['entries'].add(coverLetterData);
       }
       // Skip job_title and contact_info as they're in the header
     }
 
-    // Add the last section if it exists
     if (currentSection != null) {
-      // Add cover letter to the last section TODO: too hardcoded. not good
-      currentSection['entries'].add(coverLetterData);
       sections.add(currentSection);
     }
 

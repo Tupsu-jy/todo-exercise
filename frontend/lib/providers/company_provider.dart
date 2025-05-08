@@ -4,6 +4,7 @@ import '../models/todo.dart';
 import '../services/company_service.dart';
 import '../services/notepad_service.dart';
 import '../services/cv_service.dart';
+import '../services/project_info_service.dart';
 
 class CompanyProvider extends ChangeNotifier {
   // State
@@ -17,11 +18,16 @@ class CompanyProvider extends ChangeNotifier {
   bool isLoading = true;
   Map<int, Map<String, dynamic>> cv = {};
   Map<String, dynamic> coverLetter = {};
-
+  Map<String, String> projectInfo = {};
   Future<void> initializeWithSlug(String slug) async {
     companySlug = slug;
     await fetchCompanyData();
-    await Future.wait([fetchNotepads(), fetchCv(), fetchCoverLetter()]);
+    await Future.wait([
+      fetchNotepads(),
+      fetchCv(),
+      fetchCoverLetter(),
+      fetchProjectInfo(),
+    ]);
   }
 
   Future<void> fetchCompanyData() async {
@@ -52,6 +58,11 @@ class CompanyProvider extends ChangeNotifier {
 
   Future<void> fetchCoverLetter() async {
     coverLetter = await CvService().getCoverLetter(coverLetterId!);
+    notifyListeners();
+  }
+
+  Future<void> fetchProjectInfo() async {
+    projectInfo = await ProjectInfoService().getProjectInfo();
     notifyListeners();
   }
 

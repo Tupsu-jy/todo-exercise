@@ -12,7 +12,7 @@ use App\Models\Todo;
 use App\Models\TodoOrder;
 use App\Models\CoverLetter;
 use App\Models\NotepadOrder;
-
+use App\Models\ProjectInfo;
 class InitSeeder extends Seeder
 {
     public function run()
@@ -118,9 +118,14 @@ GitHub: johndoe-dev"
                 'text_fi' => ['title' => 'CloudScale Inc', 'content' => 'Pilvi-insinööri 01.2024 alkaen. Suunnittelen ja toteutan skaalautuvia pilvi-infrastruktuuriratkaisuja. Työskentelen AWS:n, Terraformin ja kontitusteknologioiden parissa. Painopiste automaatiossa ja infrastruktuurissa koodina.']
             ]),
             CvComponent::create([
-                'category' => 'section_header',
+                'category' => 'section_header_letter',
                 'text_en' => 'Cover Letter',
                 'text_fi' => 'Hakukirje'
+            ]),
+            CvComponent::create([
+                'category' => 'section_header_info',
+                'text_en' => 'Project Info',
+                'text_fi' => 'Tietoa projektista'
             ]),
         ];
 
@@ -256,6 +261,12 @@ GitHub: johndoe-dev"
             'company_id' => $company1->id,
             'notepad_id' => $notepad2->id,
             'order_index' => 1000
+        ]);
+
+        // 9. Create project info
+        ProjectInfo::create([
+            'text_en' => 'Project info in English',
+            'text_fi' => 'Projektin tiedot suomeksi'
         ]);
     }
 }
