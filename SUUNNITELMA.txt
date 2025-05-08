@@ -146,6 +146,16 @@ about sivu päivitys:
 
   muokataan frontin logiikkaa toimimaan uudella tavalla
 
+
+MIGRAATIOT PRODISSA
+  -eli pitää yhdistää mun paikallinen laravel pilven kantaan
+DB_HOST 
+DB_PORT 
+DB_USERNAME 
+DB_PASSWORD 
+DB_DATABASE 
+
+
 VAIHE 4
 
 FRONTTI
