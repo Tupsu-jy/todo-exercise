@@ -147,14 +147,54 @@ about sivu päivitys:
   muokataan frontin logiikkaa toimimaan uudella tavalla
 
 
-MIGRAATIOT PRODISSA
-  -eli pitää yhdistää mun paikallinen laravel pilven kantaan
+MIGRAATIOT PRODISSA 
+  -eli pitää yhdistää mun paikallinen laravel pilven kantaan 
 DB_HOST 
 DB_PORT 
 DB_USERNAME 
 DB_PASSWORD 
 DB_DATABASE 
 
+FLUTTER TESTIT
+flutter drive   --driver=test_driver/integration_test.dart   --target=integration_test/app_test.dart   -d chrome
+
+pitää olla avaimia
+
+testi 1:
+notepad sivultä löytyy oikeat notepadit
+
+testi 2:
+about sivulta löytyy info ja letter ja silleen
+
+testi 3:
+uuden notepadin luominen onnistuu
+
+testi 4:
+
+
+VAIHE CI/CD
+
+  -jotain pari e2e testei flutterille
+    luodaan testaus setup eli:
+    docker compose, jokainen image omalla testinimellään
+    DB aika normi mutta testi asetuksilla jotka voi mennä gittiin np
+    BE saa composessa oikeat ympäristömuuttujat
+    BE sisältää sen initseederin jonka dataa vasten tehdään testei
+    FRONTTI käyttää niitä devaus env muuttujia yhteyden muodostamiseen
+    FRONTISSA on sitten jotain testei jotka ajetaan... jotenkin
+    FRONTIN testei pystyy siis ajamaan myös devausympäristössä, koska devausympäristössä käytetään samoja initseeder dataa
+
+    nyt enää pitää luoda jotain toimivii testei
+
+
+  -github actions
+    aina kun tehdään pr masteriin niin ajetaan testit ja päästetään läpi vain jos ne menee läpi
+    kaikki mikä menee läpi niin pushataan gcp docker registryyn ja deployataan stagingiin
+    manuaalisesti prod:iin sitten jos kaikki toimii?
+
+  -luodaan siis kaksi eri deploymentia staging ja prod
+
+  -kubernetes? lol ehkä joku päivä
 
 VAIHE 4
 
@@ -172,7 +212,7 @@ FRONTTI
         oma taulu? jossa on aina kaikille hakemuksille sama tieto
 
 BACKKI
-  -siivoominen
+  -siivoominen (ei jaksa vielä)
 
 VAIHE 3
 

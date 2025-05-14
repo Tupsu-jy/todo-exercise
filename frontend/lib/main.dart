@@ -10,22 +10,36 @@ import 'providers/language_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void main() {
+void main({String? initialRoute}) {
   String companySlug;
   String languageCode;
 
-  try {
-    final Uri uri = Uri.base;
-    final segments = uri.pathSegments;
+  // Parse initialRoute if provided (for testing)
+  if (initialRoute != null && initialRoute.isNotEmpty) {
+    // Remove leading slash if present
+    final route =
+        initialRoute.startsWith('/') ? initialRoute.substring(1) : initialRoute;
+    final segments = route.split('/');
+
+    // Extract language and company from route
     languageCode = segments.isNotEmpty ? segments[0] : 'en';
     companySlug = segments.length > 1 ? segments[1] : 'default';
-
-    if (!['en', 'fi'].contains(languageCode)) {
+  } else {
+    // Normal browser URL parsing
+    try {
+      final Uri uri = Uri.base;
+      final segments = uri.pathSegments;
+      languageCode = segments.isNotEmpty ? segments[0] : 'en';
+      companySlug = segments.length > 1 ? segments[1] : 'default';
+    } catch (e) {
       languageCode = 'en';
+      companySlug = 'default';
     }
-  } catch (e) {
+  }
+
+  // Validate language code
+  if (!['en', 'fi'].contains(languageCode)) {
     languageCode = 'en';
-    companySlug = 'default';
   }
 
   final provider = CompanyProvider();
