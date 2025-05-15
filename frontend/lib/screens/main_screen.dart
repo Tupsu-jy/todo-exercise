@@ -19,8 +19,16 @@ class MainScreen extends StatelessWidget {
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.folder), text: l10n.notepads),
-              Tab(icon: Icon(Icons.info), text: l10n.about),
+              Tab(
+                key: const Key('notepads_tab'),
+                icon: Icon(Icons.folder),
+                text: l10n.notepads,
+              ),
+              Tab(
+                key: const Key('about_tab'),
+                icon: Icon(Icons.info),
+                text: l10n.about,
+              ),
             ],
           ),
           title: Text(l10n.appName),

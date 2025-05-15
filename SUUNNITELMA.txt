@@ -141,7 +141,7 @@ jos löytyis samanlainen
 
 about sivu päivitys:
   section headerien categorioita muutetaan hiukan, niin että letter ja info headerit voidaan tunnistaa koodissa
-  
+
   luodaan uusi taulu vain infoa varten
 
   muokataan frontin logiikkaa toimimaan uudella tavalla

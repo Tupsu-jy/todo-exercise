@@ -6,23 +6,39 @@ import 'package:frontend/main.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('Navigointi sovelluksessa', (WidgetTester tester) async {
-    print('🚀 TEST STARTING');
-
-    // Käynnistä sovellus initialRoute-parametrilla
+  testWidgets('Notepads loaded', (WidgetTester tester) async {
+    // Start the app with the initialRoute parameter
     app.main(initialRoute: '/en/one4all');
-    print('📱 App käynnistetty reitillä /en/one4all');
 
-    // Anna aikaa sovelluksen latautumiselle ja API-kutsuille
+    // Wait for the app to load and API calls to complete
     await tester.pumpAndSettle(Duration(seconds: 3));
 
-    // Nyt testaa TabBar-navigointia
-    print('🔍 Etsitään About-välilehteä');
-    final aboutTab = find.text('About');
-    expect(aboutTab, findsOneWidget, reason: 'About-välilehteä ei löytynyt');
+    final projectAlphaTasks = find.text('Project Alpha Tasks');
+    expect(
+      projectAlphaTasks,
+      findsOneWidget,
+      reason: 'Project Alpha Tasks not found',
+    );
 
-    print('👆 Navigoidaan About-välilehdelle');
+    final projectBetaTasks = find.text('Project Beta Tasks');
+    expect(
+      projectBetaTasks,
+      findsOneWidget,
+      reason: 'Project Beta Tasks not found',
+    );
+  });
+  testWidgets('About page loaded', (WidgetTester tester) async {
+    // Start the app with the initialRoute parameter
+    app.main(initialRoute: '/en/one4all');
+
+    // Wait for the app to load and API calls to complete
+    await tester.pumpAndSettle(Duration(seconds: 3));
+
+    final aboutTab = find.byKey(const Key('about_tab'));
     await tester.tap(aboutTab);
     await tester.pumpAndSettle();
+
+    final name = find.text('JAAKKO YLINEN');
+    expect(name, findsOneWidget, reason: 'Name not found');
   });
 }
