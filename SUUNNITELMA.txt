@@ -156,21 +156,18 @@ DB_PASSWORD
 DB_DATABASE 
 
 FLUTTER TESTIT
+
+ajo-ohjeet:
+1 käynnistetään testi backend ja testi db
+docker compose -f docker-compose.test.yml up test_backend test_db
+2 käynnistetään chromedriver
+chromedriver --port=4444
+3 ajetaan testit
 flutter drive   --driver=test_driver/integration_test.dart   --target=integration_test/app_test.dart   -d chrome
 
 pitää olla avaimia
 
-testi 1:
-notepad sivultä löytyy oikeat notepadit
-
-testi 2:
-about sivulta löytyy info ja letter ja silleen
-
-testi 3:
-uuden notepadin luominen onnistuu
-
-testi 4:
-
+siirtelyiden testaaminen ja muunkin muokkaamisen testaaminen
 
 VAIHE CI/CD
 

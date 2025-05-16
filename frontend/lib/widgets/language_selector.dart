@@ -14,6 +14,7 @@ class LanguageSelector extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
+              key: Key('english_language_selector'),
               onTap: () => languageProvider.setLocale(Locale('en')),
               child: Padding(
                 padding: EdgeInsets.all(8.0),
@@ -21,6 +22,7 @@ class LanguageSelector extends StatelessWidget {
               ),
             ),
             InkWell(
+              key: Key('finnish_language_selector'),
               onTap: () => languageProvider.setLocale(Locale('fi')),
               child: Padding(
                 padding: EdgeInsets.all(8.0),

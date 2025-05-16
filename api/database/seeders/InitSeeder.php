@@ -25,8 +25,8 @@ class InitSeeder extends Seeder
         // 2. Create cover letter
         $coverLetter = CoverLetter::create([
             'name' => 'First Cover Letter',
-            'letter_en' => 'hire me!!!!',
-            'letter_fi' => 'oispa töitä!!!!',
+            'letter_en' => 'test cover letter',
+            'letter_fi' => 'testihakukirje',
         ]);
 
         // 2. Create CV components
@@ -265,8 +265,8 @@ GitHub: johndoe-dev"
 
         // 9. Create project info
         ProjectInfo::create([
-            'text_en' => 'Project info in English',
-            'text_fi' => 'Projektin tiedot suomeksi'
+            'text_en' => 'test project info',
+            'text_fi' => 'testi projektin info'
         ]);
     }
 }
