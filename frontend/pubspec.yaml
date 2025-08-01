@@ -44,6 +44,8 @@ dependencies:
   reorderable_grid: ^1.0.10
 
 dev_dependencies:
+  test: ^1.24.9
+  webdriver: ^3.0.2
   flutter_test:
     sdk: flutter
   integration_test:

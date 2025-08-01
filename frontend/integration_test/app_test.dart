@@ -2,9 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:frontend/main.dart' as app;
+import 'package:webdriver/async_io.dart';
+import 'package:webdriver/support/wait.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  // WebDriver setup
+  late WebDriver driver;
+
+  setUpAll(() async {
+    // Käynnistetään WebDriver ChromeDriverin kanssa
+    driver = await createDriver(
+      spec: WebDriverSpec.W3c,
+      uri: Uri.parse('http://localhost:4444'), // ChromeDriverin oletusportti
+    );
+  });
+
+  tearDownAll(() async {
+    // Suljetaan WebDriver
+    await driver.quit();
+  });
 
   testWidgets('Notepads loaded', (WidgetTester tester) async {
     // Start the app with the initialRoute parameter
