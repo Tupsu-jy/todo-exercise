@@ -195,13 +195,10 @@ VAIHE CI/CD VANHA
 
 VAIHE CI/CD uusi
 
-paikallisesti pitää pystyä devaamaan, siihen tarvitaan toi firestore emulator, ei tarvii olla mikään kontti varmaankaan
-
-githubiin voi pushata mainiin ihan ilman mitään
+paikallisesti pitää pystyä devaamaan, sitä varten paikallinen
+(jenkins)testejä varten myös paikallinen kontissa
 
 mutta omalla koneella on jenkins joka tarkkailee githubia? tai se voi myös olla proju jonka voi laittaa githubiin jos sen laittaa dockeriin sisälle. tää jenkins kontti alkaa sitten pollaamaan githubia heti kun se ajetaan, ajaa testit ja jos ne menee läpi niin deployaa kaiken gcp:lle.
-
-projuun tarvitaan jokin juttu millä saa helposti luotua testejä varten firestore emulator kannan. samaa voi käyttää devausta varten. jenkins sitten käyttää tätä testejä varten
 
 terraform sopii hyvin yhteen tän jenkins kanssa
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start database if it exists
-docker start todo-exercise-db || echo "Error: Could not start database container"
+# docker start todo-exercise-db || echo "Error: Could not start database container"
 
 # Start PHP server
 gnome-terminal --tab --title="PHP Server" -- bash -c "cd api && php artisan serve; exec bash"
