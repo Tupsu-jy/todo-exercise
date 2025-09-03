@@ -198,7 +198,9 @@ VAIHE CI/CD uusi
 paikallisesti pitää pystyä devaamaan, sitä varten paikallinen
 (jenkins)testejä varten myös paikallinen kontissa
 
-mutta omalla koneella on jenkins joka tarkkailee githubia? tai se voi myös olla proju jonka voi laittaa githubiin jos sen laittaa dockeriin sisälle. tää jenkins kontti alkaa sitten pollaamaan githubia heti kun se ajetaan, ajaa testit ja jos ne menee läpi niin deployaa kaiken gcp:lle.
+mutta omalla koneella on jenkins joka tarkkailee githubia? 
+tai se voi myös olla proju jonka voi laittaa githubiin jos sen laittaa dockeriin sisälle. 
+tää jenkins kontti alkaa sitten pollaamaan githubia heti kun se ajetaan, ajaa testit ja jos ne menee läpi niin deployaa kaiken gcp:lle.
 
 terraform sopii hyvin yhteen tän jenkins kanssa
 

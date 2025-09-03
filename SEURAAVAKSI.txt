@@ -1,2 +1,12 @@
 viimeksi saatu toimimaan paikallinen yhteys neoniin
 ???
+nyt sitten koitetaan saada toimimaan pilvessä
+paikallinen yhteys prod kantaan niin että voi alustaa
+  -tarvitaan vaan ne variablet jotenkin siihen viittaamaan
+  -tarvitaan sinne .env viittaukset kumpaankin
+  -voiskohan tän tehä bash scriptillä?
+gcp env muuttujat osoittamaan prod neon kantaan
+  -siihenhän vaan tarvitaan se yksi db_url päivittää. joo
+
+jenkins pollaamassa githubia, missä?
+jenkins on lokaalisti pyörimässä missä nyt sitten onkin ja ne pipeline skriptit on tän repon juuressa
