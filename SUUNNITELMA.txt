@@ -195,6 +195,15 @@ VAIHE CI/CD VANHA
 
 VAIHE CI/CD uusi
 
+JENKINS 
+
+poll juttui:
+*/5 * * * *     ← Joka 5 minuutti
+*/10 * * * *    ← Joka 10 minuutti
+*/15 * * * *    ← Joka 15 minuutti
+0 */1 * * *     ← Joka tunti
+0 0 */1 * *     ← Joka päivä
+
 paikallisesti pitää pystyä devaamaan, sitä varten paikallinen
 (jenkins)testejä varten myös paikallinen kontissa
 
