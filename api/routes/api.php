@@ -56,28 +56,3 @@ Route::prefix('cover-letters')->group(function () {
 Route::prefix('project-info')->group(function () {
     Route::get('/', [ProjectInfoController::class, 'getLatest']);
 });
-
-// This is a temporary route to test the firestore connection
-Route::get('/test-firestore', function () {
-    try {
-        $firestore = app(\Google\Cloud\Firestore\FirestoreClient::class);
-        
-        // Test creating a document
-        $collection = $firestore->collection('test');
-        $document = $collection->add([
-            'message' => 'Hello Firestore!',
-            'timestamp' => new \Google\Cloud\Core\Timestamp(new \DateTime())
-        ]);
-        
-        return response()->json([
-            'success' => true,
-            'document_id' => $document->id(),
-            'message' => 'Firestore connection working!'
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'error' => $e->getMessage()
-        ], 500);
-    }
-});
