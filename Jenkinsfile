@@ -5,7 +5,7 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                sh 'docker-compose -f docker-compose.test.yml build'
+                sh 'docker compose -f docker-compose.test.yml build'
             }
         }
 
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Cleanup') {
             steps {
-                sh 'docker-compose -f docker-compose.test.yml down'
+                sh 'docker compose -f docker-compose.test.yml down'
             }
         }
     }
