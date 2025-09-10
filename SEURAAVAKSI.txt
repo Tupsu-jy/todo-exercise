@@ -11,3 +11,7 @@ gcp env muuttujat osoittamaan prod neon kantaan
 jenkins pollaamassa githubia, missä?
 jenkins on lokaalisti pyörimässä missä nyt sitten onkin ja ne pipeline skriptit on tän repon juuressa
 
+meillä on docker compose joka buildaa ja käynnistää testikontit, e2e testien ajo ei onnaa.
+
+tällä komennolla saa ajettua testit
+flutter drive --dart-define=WS_URL=ws://localhost:8000/app/ob0ildef0rapadlha0hl --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome

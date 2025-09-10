@@ -197,12 +197,15 @@ VAIHE CI/CD uusi
 
 JENKINS 
 
-poll juttui:
-*/5 * * * *     ← Joka 5 minuutti
-*/10 * * * *    ← Joka 10 minuutti
-*/15 * * * *    ← Joka 15 minuutti
-0 */1 * * *     ← Joka tunti
-0 0 */1 * *     ← Joka päivä
+pollaa manuaalisesti
+
+sen pitää:
+1. luoda docker kontit ja deployata frontti ja backki
+2. ymp muuttujat pitää olla kunnossa jotenkin (ne on defaultina ihan ok, mutta ne ei siirry gittiin)
+3. ajetaan skripti joka alustaa uudelleen devaus kannan (tai pitäiskö olla erikseen vielä testikanta?)
+4. ajetaan jotain perus e2e testei mitä mul kai on jo tehtynä
+5. ajetaa skripti joka deployaa docker imaget gcp:lle
+
 
 paikallisesti pitää pystyä devaamaan, sitä varten paikallinen
 (jenkins)testejä varten myös paikallinen kontissa
