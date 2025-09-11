@@ -15,3 +15,5 @@ meillä on docker compose joka buildaa ja käynnistää testikontit, e2e testien
 
 tällä komennolla saa ajettua testit
 flutter drive --dart-define=WS_URL=ws://localhost:8000/app/ob0ildef0rapadlha0hl --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome
+
+flutter not found
