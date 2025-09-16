@@ -16,7 +16,7 @@ pipeline {
             steps {
                 // Aja Flutter E2E testit suoraan
                 dir('frontend') {
-                    sh 'flutter drive --dart-define=WS_URL=ws://localhost:8000/app/ob0ildef0rapadlha0hl --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome'
+                    sh 'xvfb-run -a flutter drive --dart-define=WS_URL=ws://localhost:8000/app/ob0ildef0rapadlha0hl --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome'
                 }
             }
         }
