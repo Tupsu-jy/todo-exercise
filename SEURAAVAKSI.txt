@@ -1,19 +1,6 @@
-viimeksi saatu toimimaan paikallinen yhteys neoniin
-???
-nyt sitten koitetaan saada toimimaan pilvessä
-paikallinen yhteys prod kantaan niin että voi alustaa
-  -tarvitaan vaan ne variablet jotenkin siihen viittaamaan
-  -tarvitaan sinne .env viittaukset kumpaankin
-  -voiskohan tän tehä bash scriptillä?
-gcp env muuttujat osoittamaan prod neon kantaan
-  -siihenhän vaan tarvitaan se yksi db_url päivittää. joo
+gcp
+tarkistetaan että toimiiko gcp kuten pitää. se vitun funktio on maksanut mulle rahaa mutta se on toiminut kuten pitääkin. katsotaan huomenna mikä tilanne
 
-jenkins pollaamassa githubia, missä?
-jenkins on lokaalisti pyörimässä missä nyt sitten onkin ja ne pipeline skriptit on tän repon juuressa
 
-meillä on docker compose joka buildaa ja käynnistää testikontit, e2e testien ajo ei onnaa.
+lisätään pipelineen uusien docker imagejen buildaaminen ja pushaaminen gcp:lle
 
-tällä komennolla saa ajettua testit
-flutter drive --dart-define=WS_URL=ws://localhost:8000/app/ob0ildef0rapadlha0hl --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome
-
-flutter not found
