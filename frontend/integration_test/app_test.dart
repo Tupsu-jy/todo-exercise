@@ -15,7 +15,7 @@ void main() {
     // Wait an additional 10 seconds
     await Future.delayed(Duration(seconds: 30));
 
-    final projectAlphaTasks = find.text('Project Alpha Tasks');
+    final projectAlphaTasks = find.text('zxczxczcxxczfdsfdgbfd');
     expect(
       projectAlphaTasks,
       findsOneWidget,
