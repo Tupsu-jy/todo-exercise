@@ -26,8 +26,7 @@ pipeline {
         // New stage that runs only if 'Run Tests' succeeded (pipeline stops on failure)
         stage('Post-Test Phase') {
             steps {
-                echo 'Tests passed — running post-test phase'
-                // Add your actions here, e.g., publish artifacts, notify, deploy to staging, etc.
+                sh './gcp-deploy.sh'
             }
         }
 
@@ -40,6 +39,7 @@ pipeline {
     
     post {
         always {
+            sh 'docker compose -f docker-compose.test.yml down || true'
             echo 'Pipeline finished!'
         }
     }
