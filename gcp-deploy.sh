@@ -4,6 +4,7 @@
 PROJECT_ID="custom-utility-454621-q9"
 REGION="europe-north1"
 BACKEND_URL="://php-app-348849534274.europe-north1.run.app"
+RUNTIME_SA=348849534274-compute@developer.gserviceaccount.com
 
 # Create timestamp tag
 VERSION=$(date +%Y%m%d_%H%M%S)
@@ -17,6 +18,7 @@ gcloud run deploy php-app \
   --platform managed \
   --region ${REGION} \
   --allow-unauthenticated \
+  --service-account=$RUNTIME_SA
 
 echo "Deploying frontend..."
 cd ../frontend
@@ -28,6 +30,7 @@ gcloud run deploy flutter-app \
  --image gcr.io/${PROJECT_ID}/flutter-app:${VERSION} \
  --platform managed \
  --region ${REGION} \
- --allow-unauthenticated
+ --allow-unauthenticated \
+ --service-account=$RUNTIME_SA
 
 echo "Done!"

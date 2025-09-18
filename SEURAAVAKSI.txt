@@ -9,3 +9,14 @@ ensuring your Cloud Run returns success so Pub/Sub doesn’t retry,
 adding subscription filters (if attributes are present), 
 setting a retry/dead-letter policy, or 
 switching to pull to control flow.
+
+
+deployaamiseen tarvitaan jenkinsille autentikaatio
+
+iam käyttäjälle voi luoda sen jutun. mulla on se luotuna näköjään. nyt pitää luoda uusi iam käyttäjä jenkinsille
+
+jokainen ubuntu käyttäjä vaati oman gcloud määritelmänsä
+käyttäjä jaakko omaa jo projekti ja kredentiaali määritelmät
+jenkinsille ne pitää lisätä erikseen (onko jenkins käyttäjällä käyttöoikeus gcloudiin? miten sille määritellään kredentiaalit? jotenkin jenkinsissä määritellään)
+
+
