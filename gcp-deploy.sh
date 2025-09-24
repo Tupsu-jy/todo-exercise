@@ -9,6 +9,8 @@ RUNTIME_SA=348849534274-compute@developer.gserviceaccount.com
 # Create timestamp tag
 VERSION=$(date +%Y%m%d_%H%M%S)
 
+set -euo pipefail
+
 echo "Deploying backend..."
 cd api
 docker build -t gcr.io/${PROJECT_ID}/php-app:${VERSION} .
