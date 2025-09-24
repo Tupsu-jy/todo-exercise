@@ -10,6 +10,9 @@ pipeline {
                 withCredentials([file(credentialsId: 'jenkins-deployer', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
                     sh '''
                         gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
+                        gcloud config set project custom-utility-454621-q9
+                        gcloud config set run/region europe-north1
+                        gcloud auth configure-docker europe-north1-docker.pkg.dev -q
                     '''
                 }
             }
