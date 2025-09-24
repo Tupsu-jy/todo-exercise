@@ -18,10 +18,9 @@ pipeline {
             }
         }
 
-        stage('Build Docker Images') {
+        stage('Start Test Stack') {
             steps {
-                // This also reseeds the database
-                sh 'docker compose -f docker-compose.test.yml build'
+                sh 'docker compose -f docker-compose.test.yml up -d --build'
             }
         }
 
