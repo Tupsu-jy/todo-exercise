@@ -5,9 +5,17 @@ pipeline {
     }
     
     stages {
-        // This is needed to authenticate with GCP
-        withCredentials([file(credentialsId: 'jenkins-deployer', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
-            sh 'gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"'
+        stage('GCP Auth') {
+            steps {
+                withCredentials([file(credentialsId: 'jenkins-deployer', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    sh '''
+                        gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
+                        gcloud config set project custom-utility-454621-q9
+                        gcloud config set run/region europe-north1
+                        gcloud auth configure-docker gcr.io -q
+                    '''
+                }
+            }
         }
 
         stage('Build Docker Images') {
